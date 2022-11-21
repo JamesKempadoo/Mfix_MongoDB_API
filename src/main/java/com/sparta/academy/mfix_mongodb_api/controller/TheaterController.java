@@ -1,6 +1,6 @@
 package com.sparta.academy.mfix_mongodb_api.controller;
 
-import com.sparta.academy.mfix_mongodb_api.entity.Theaters;
+import com.sparta.academy.mfix_mongodb_api.entity.Theater;
 import com.sparta.academy.mfix_mongodb_api.repositories.TheaterRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,7 +20,7 @@ public class TheaterController {
 
 
     @GetMapping("/theaters/all")
-    public List<Theaters> getUsers() {
+    public List<Theater> getUsers() {
         return theaterRepository.findAll();
     }
 //    @GetMapping("")

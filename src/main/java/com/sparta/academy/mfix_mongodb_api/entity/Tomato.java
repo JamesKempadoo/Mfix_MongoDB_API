@@ -1,14 +1,14 @@
 package com.sparta.academy.mfix_mongodb_api.entity;
 
 
-public class Tomatoes{
+public class Tomato {
     private Viewer viewer;
     private String lastUpdated;
 
-    public Tomatoes() {
+    public Tomato() {
     }
 
-    public Tomatoes(Viewer viewer, String lastUpdated) {
+    public Tomato(Viewer viewer, String lastUpdated) {
         this.viewer = viewer;
         this.lastUpdated = lastUpdated;
     }
