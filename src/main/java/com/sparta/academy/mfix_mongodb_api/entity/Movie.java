@@ -1,7 +1,6 @@
 package com.sparta.academy.mfix_mongodb_api.entity;
 
 import com.mongodb.lang.Nullable;
-import org.bson.codecs.pojo.annotations.BsonProperty;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
@@ -42,7 +41,7 @@ public class Movie{
 
     @Field
     // Embedded Class
-    private Tomatoes tomatoes;
+    private Tomato tomatoes;
 
     @Field
     private String fullplot;
@@ -71,7 +70,7 @@ public class Movie{
     public Movie() {
     }
 
-    public Movie(String id, String year, List<String> directors, Integer runtime, List<String> countries, String title, String type, @Nullable Integer num_mflix_comments, List<String> cast, Tomatoes tomatoes, String fullplot, Imdb imdb, String plot, List<String> genres, String lastupdated, String poster, String released) {
+    public Movie(String id, String year, List<String> directors, Integer runtime, List<String> countries, String title, String type, @Nullable Integer num_mflix_comments, List<String> cast, Tomato tomatoes, String fullplot, Imdb imdb, String plot, List<String> genres, String lastupdated, String poster, String released) {
         this.id = id;
         this.year = year;
         this.directors = directors;
@@ -164,11 +163,11 @@ public class Movie{
         this.cast = cast;
     }
 
-    public Tomatoes getTomatoes() {
+    public Tomato getTomatoes() {
         return tomatoes;
     }
 
-    public void setTomatoes(Tomatoes tomatoes) {
+    public void setTomatoes(Tomato tomatoes) {
         this.tomatoes = tomatoes;
     }
 

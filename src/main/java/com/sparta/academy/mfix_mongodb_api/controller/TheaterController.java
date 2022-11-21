@@ -1,7 +1,7 @@
 package com.sparta.academy.mfix_mongodb_api.controller;
 
-import com.sparta.academy.mfix_mongodb_api.entity.Theaters;
-import com.sparta.academy.mfix_mongodb_api.repositories.TheatersRepository;
+import com.sparta.academy.mfix_mongodb_api.entity.Theater;
+import com.sparta.academy.mfix_mongodb_api.repositories.TheaterRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -11,17 +11,17 @@ import java.util.List;
 @RestController
 public class TheaterController {
 
-    private final TheatersRepository theatersRepository;
+    private final TheaterRepository theaterRepository;
 
     @Autowired
-    public TheaterController(TheatersRepository theatersRepository) {
-        this.theatersRepository = theatersRepository;
+    public TheaterController(TheaterRepository theaterRepository) {
+        this.theaterRepository = theaterRepository;
     }
 
 
     @GetMapping("/theaters/all")
-    public List<Theaters> getUsers() {
-        return theatersRepository.findAll();
+    public List<Theater> getUsers() {
+        return theaterRepository.findAll();
     }
 //    @GetMapping("")
 //    public void
