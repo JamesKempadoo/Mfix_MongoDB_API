@@ -1,4 +1,4 @@
-package com.sparta.jjs.utility.logging;
+package com.sparta.academy.mfix_mongodb_api.logging;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -24,7 +24,7 @@ public class LoggerSingleton {
 
     private void initLogger()
     {
-        logger = Logger.getLogger("sort-logger");
+        logger = Logger.getLogger("mflix-logger");
         CustomLoggerConfiguration.configureLogger(logger, Level.OFF);
     }
 

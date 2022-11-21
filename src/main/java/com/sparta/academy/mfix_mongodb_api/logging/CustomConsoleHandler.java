@@ -1,4 +1,4 @@
-package com.sparta.jjs.utility.logging;
+package com.sparta.academy.mfix_mongodb_api.logging;
 
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Level;
