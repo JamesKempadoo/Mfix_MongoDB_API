@@ -1,8 +1,10 @@
 package com.sparta.academy.mfix_mongodb_api.entity;
 
+import com.mongodb.lang.Nullable;
 import org.bson.codecs.pojo.annotations.BsonProperty;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.util.List;
 
@@ -12,48 +14,64 @@ public class Movie{
     @Id
     private String id;
 
-    private int year;
+    @Field
+    private String year;
 
+    @Field
     private List<String> directors;
 
-    private double runtime;
+    @Field
+    private Integer runtime;
 
+    @Field
     private List<String> countries;
 
+    @Field
     private String title;
 
+    @Field
     private String type;
 
-    @BsonProperty("num_mflix_comments")
-    private int numberOfComments;
+    @Field
+    //@BsonProperty("num_mflix_comments")
+    @Nullable
+    private Integer num_mflix_comments;
 
+    @Field
     private List<String> cast;
 
+    @Field
     // Embedded Class
     private Tomatoes tomatoes;
 
+    @Field
     private String fullplot;
 
     // Embedded Class
+    @Field
     private Imdb imdb;
 
+    @Field
     private String plot;
 
+    @Field
     private List<String> genres;
 
+    @Field
     private String lastupdated;
 
+    @Field
     // Link to image
     private String poster;
 
     // DateTime Epoch
-    private int released;
-
+    @Field
+    private String released;
 
     public Movie() {
     }
 
-    public Movie(String id, int year, List<String> directors, double runtime, List<String> countries, String title, String type, int numberOfComments, List<String> cast, Tomatoes tomatoes, String fullplot, Imdb imdb, String plot, List<String> genres, String lastupdated, String poster, int released) {
+    public Movie(String id, String year, List<String> directors, Integer runtime, List<String> countries, String title, String type, @Nullable Integer num_mflix_comments, List<String> cast, Tomatoes tomatoes, String fullplot, Imdb imdb, String plot, List<String> genres, String lastupdated, String poster, String released) {
         this.id = id;
         this.year = year;
         this.directors = directors;
@@ -61,7 +79,7 @@ public class Movie{
         this.countries = countries;
         this.title = title;
         this.type = type;
-        this.numberOfComments = numberOfComments;
+        this.num_mflix_comments = num_mflix_comments;
         this.cast = cast;
         this.tomatoes = tomatoes;
         this.fullplot = fullplot;
@@ -81,11 +99,11 @@ public class Movie{
         this.id = id;
     }
 
-    public int getYear() {
+    public String getYear() {
         return year;
     }
 
-    public void setYear(int year) {
+    public void setYear(String year) {
         this.year = year;
     }
 
@@ -97,11 +115,11 @@ public class Movie{
         this.directors = directors;
     }
 
-    public double getRuntime() {
+    public Integer getRuntime() {
         return runtime;
     }
 
-    public void setRuntime(double runtime) {
+    public void setRuntime(Integer runtime) {
         this.runtime = runtime;
     }
 
@@ -129,12 +147,13 @@ public class Movie{
         this.type = type;
     }
 
-    public int getNumberOfComments() {
-        return numberOfComments;
+    @Nullable
+    public Integer getNum_mflix_comments() {
+        return num_mflix_comments;
     }
 
-    public void setNumberOfComments(int numberOfComments) {
-        this.numberOfComments = numberOfComments;
+    public void setNum_mflix_comments(@Nullable Integer num_mflix_comments) {
+        this.num_mflix_comments = num_mflix_comments;
     }
 
     public List<String> getCast() {
@@ -201,11 +220,11 @@ public class Movie{
         this.poster = poster;
     }
 
-    public int getReleased() {
+    public String getReleased() {
         return released;
     }
 
-    public void setReleased(int released) {
+    public void setReleased(String released) {
         this.released = released;
     }
 }

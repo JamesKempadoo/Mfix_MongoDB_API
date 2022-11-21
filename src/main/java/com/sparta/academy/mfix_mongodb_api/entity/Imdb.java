@@ -2,13 +2,13 @@ package com.sparta.academy.mfix_mongodb_api.entity;
 
 public class Imdb{
     private String id;
-    private int rating;
-    private int votes;
+    private Integer rating;
+    private Integer votes;
 
     public Imdb() {
     }
 
-    public Imdb(String id, int rating, int votes) {
+    public Imdb(String id, Integer rating, Integer votes) {
         this.id = id;
         this.rating = rating;
         this.votes = votes;
@@ -22,19 +22,19 @@ public class Imdb{
         this.id = id;
     }
 
-    public int getRating() {
+    public Integer getRating() {
         return rating;
     }
 
-    public void setRating(int rating) {
+    public void setRating(Integer rating) {
         this.rating = rating;
     }
 
-    public int getVotes() {
+    public Integer getVotes() {
         return votes;
     }
 
-    public void setVotes(int votes) {
+    public void setVotes(Integer votes) {
         this.votes = votes;
     }
 }

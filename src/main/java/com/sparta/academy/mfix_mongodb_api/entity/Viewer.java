@@ -3,30 +3,30 @@ package com.sparta.academy.mfix_mongodb_api.entity;
 public class Viewer{
 
 
-    private int rating;
-    private int numReviews;
+    private Integer rating;
+    private Integer numReviews;
 
     public Viewer() {
     }
 
-    public Viewer(int rating, int numReviews) {
+    public Viewer(Integer rating, Integer numReviews) {
         this.rating = rating;
         this.numReviews = numReviews;
     }
 
-    public int getRating() {
+    public Integer getRating() {
         return rating;
     }
 
-    public void setRating(int rating) {
+    public void setRating(Integer rating) {
         this.rating = rating;
     }
 
-    public int getNumReviews() {
+    public Integer getNumReviews() {
         return numReviews;
     }
 
-    public void setNumReviews(int numReviews) {
+    public void setNumReviews(Integer numReviews) {
         this.numReviews = numReviews;
     }
 }

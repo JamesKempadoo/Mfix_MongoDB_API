@@ -3,12 +3,12 @@ package com.sparta.academy.mfix_mongodb_api.entity;
 
 public class Tomatoes{
     private Viewer viewer;
-    private int lastUpdated;
+    private String lastUpdated;
 
     public Tomatoes() {
     }
 
-    public Tomatoes(Viewer viewer, int lastUpdated) {
+    public Tomatoes(Viewer viewer, String lastUpdated) {
         this.viewer = viewer;
         this.lastUpdated = lastUpdated;
     }
@@ -21,11 +21,11 @@ public class Tomatoes{
         this.viewer = viewer;
     }
 
-    public int getLastUpdated() {
+    public String getLastUpdated() {
         return lastUpdated;
     }
 
-    public void setLastUpdated(int lastUpdated) {
+    public void setLastUpdated(String lastUpdated) {
         this.lastUpdated = lastUpdated;
     }
 }
