@@ -1,11 +1,13 @@
 package com.sparta.academy.mfix_mongodb_api.controller;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.sparta.academy.mfix_mongodb_api.entity.Theater;
 import com.sparta.academy.mfix_mongodb_api.exceptions.NoTheaterFoundException;
 import com.sparta.academy.mfix_mongodb_api.repositories.TheaterRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -27,10 +29,20 @@ public class TheaterController {
     }
 
     @GetMapping("/theaters/{id}")
-    public Theater.Location getTheaterLocationByID(@PathVariable String id) throws NoTheaterFoundException {
-        Theater theater = theaterRepository.findById(id).orElseThrow(NoTheaterFoundException::new);
+    public Theater.Location getTheaterLocationByID(@PathVariable Integer id) throws NoTheaterFoundException {
 
+        Theater theater = null;
+        try {
+            theater = theaterRepository.getTheatersByTheaterId(id);
+        } catch (NoTheaterFoundException e) {
+            e.getMessage();
+        }
+        if(theater == null){
+            throw new NoTheaterFoundException();
+        }
         return theater.getLocation();
     }
+
+    @PostMapping
 
 }
