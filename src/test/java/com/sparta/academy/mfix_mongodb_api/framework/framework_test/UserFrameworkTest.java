@@ -1,22 +1,16 @@
 package com.sparta.academy.mfix_mongodb_api.framework.framework_test;
 
 import com.sparta.academy.mfix_mongodb_api.framework.connection.ConnectionResponse;
-import com.sparta.academy.mfix_mongodb_api.framework.dto.UserCollectionDTO;
 import com.sparta.academy.mfix_mongodb_api.framework.dto.UserDTO;
-import org.assertj.core.util.ArrayWrapperList;
 import org.junit.jupiter.api.*;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
 
 import static com.sparta.academy.mfix_mongodb_api.framework.connection.ConnectionManager.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class UserFrameworkTest {
 
-    //private static UserCollectionDTO collectionDTO;
     private static UserDTO[] users;
     private static UserDTO dto;
     private static ConnectionResponse collectionResponse;
@@ -29,6 +23,45 @@ public class UserFrameworkTest {
 
         users = collectionResponse.getBodyAs(UserDTO[].class);
         dto = response.getBodyAs(UserDTO.class);
+    }
+
+    @Nested
+    @DisplayName("User Tests")
+    class UserArrayTests {
+
+        @Nested
+        @DisplayName("Status Code Tests")
+        class StatusCodeTests {
+
+            @Test
+            @DisplayName("Test that status code is 200")
+            void TestThatStatusCodeIs200() {
+                Assertions.assertEquals(200, collectionResponse.getStatusCode());
+            }
+
+        }
+
+        @Nested
+        @DisplayName("Response Header Tests")
+        class ResponseHeaderTests {
+            @Test
+            @DisplayName("Check that content type is application/json")
+            void checkContentTypeApplicationJSON(){
+                Assertions.assertEquals("application/json", collectionResponse.getHeader("Content-Type"));
+            }
+        }
+
+        @Nested
+        class ResponseBodyTests {
+
+            @Test
+            @DisplayName("Test that users array is not null")
+            void TestThatUserArrayIsNotNull() {
+                assertNotNull(users);
+            }
+
+        }
+
     }
 
     @Nested
@@ -60,15 +93,57 @@ public class UserFrameworkTest {
         @Nested
         class ResponseBodyTests {
             @Test
-            @DisplayName("Test that name is not empty")
-            void TestThatNameIsNotEmptyString() {
-                assertThat(dto.getName(), is(not(emptyString())));
+            @DisplayName("Test that name is not blank")
+            void TestThatNameIsNotBlank() {
+                assertFalse(dto.isNameBlank());
             }
 
             @Test
             @DisplayName("Test that name is not null")
             void TestThatNameIsNotNull() {
-                assertThat(dto.getName(), is(notNullValue()));
+                assertFalse(dto.isNameNull());
+            }
+
+            @Test
+            @DisplayName("Test that id is not blank")
+            void TestThatIdIsNotBlank() {
+                assertFalse(dto.isIdBlank());
+            }
+
+            @Test
+            @DisplayName("Test that id is not null")
+            void TestThatIdIsNotNull() {
+                assertFalse(dto.isIdNull());
+            }
+
+            @Test
+            @DisplayName("Test that password is not blank")
+            void TestThatPasswordIsNotBlank() {
+                assertFalse(dto.isPasswordBlank());
+            }
+
+            @Test
+            @DisplayName("Test that password is not null")
+            void TestThatPasswordIsNotNull() {
+                assertFalse(dto.isPasswordNull());
+            }
+
+            @Test
+            @DisplayName("Test that encrypted password length is 60")
+            void TestThatPasswordLengthIs60() {
+                assertTrue(dto.isPasswordEncryptionValidLength());
+            }
+
+            @Test
+            @DisplayName("Test that email is not blank")
+            void TestThatEmailIsNotBlank() {
+                assertFalse(dto.isEmailBlank());
+            }
+
+            @Test
+            @DisplayName("Test that email is not null")
+            void TestThatEmailIsNotNull() {
+                assertFalse(dto.isEmailNull());
             }
         }
 
