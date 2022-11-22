@@ -42,7 +42,11 @@ public class UserController {
 
     @PostMapping("/users")
     public User createUser(@RequestBody User user) {
-        logger.log(Level.INFO, user.toString());
+        return userRepository.save(user);
+    }
+
+    @PatchMapping("/users")
+    public User updateUser(@RequestBody User user) {
         return userRepository.save(user);
     }
 
