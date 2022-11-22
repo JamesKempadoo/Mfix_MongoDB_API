@@ -2,6 +2,8 @@ package com.sparta.academy.mfix_mongodb_api.entity;
 
 import nonapi.io.github.classgraph.json.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
+import org.springframework.data.mongodb.core.mapping.FieldType;
 
 import java.util.List;
 
@@ -9,6 +11,7 @@ import java.util.List;
 public class Theater {
 
 	@Id
+	//@Field(targetType = FieldType.OBJECT_ID)
 	private String id;
 
 	private Integer theaterId;

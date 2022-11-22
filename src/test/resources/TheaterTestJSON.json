@@ -1,0 +1,230 @@
+[
+  {
+    "id": "200",
+    "theaterId": 169,
+    "location": {
+      "geo": {
+        "coordinates": [
+          85.082726,
+          35.917561
+        ],
+        "type": "Point"
+      },
+      "address": {
+        "zipcode": "37923",
+        "city": "Knoxville",
+        "street1": "8925 Towne And Country Cir",
+        "state": "TN"
+      }
+    }
+  },
+  {
+    "id": "400-theaterId",
+    "theaterId": -1,
+    "location": {
+      "geo": {
+        "coordinates": [
+          -89.082726,
+          35.917561
+        ],
+        "type": "Point"
+      },
+      "address": {
+        "zipcode": "37923",
+        "city": "Knoxville",
+        "street1": "8925 Towne And Country Cir",
+        "state": "TN"
+      }
+    }
+  },
+  {
+    "id": "400-latitude_less_than_-90",
+    "theaterId": 169,
+    "location": {
+      "geo": {
+        "coordinates": [
+          -95.005454,
+          35.917561
+        ],
+        "type": "Point"
+      },
+      "address": {
+        "zipcode": "37923",
+        "city": "Knoxville",
+        "street1": "8925 Towne And Country Cir",
+        "state": "TN"
+      }
+    }
+  },
+  {
+    "id": "400-latitude_greater_than_90",
+    "theaterId": 169,
+    "location": {
+      "geo": {
+        "coordinates": [
+          95.04554,
+          35.917561
+        ],
+        "type": "Point"
+      },
+      "address": {
+        "zipcode": "37923",
+        "city": "Knoxville",
+        "street1": "8925 Towne And Country Cir",
+        "state": "TN"
+      }
+    }
+  },
+  {
+    "id": "400-longitude_less_than_-180",
+    "theaterId": 169,
+    "location": {
+      "geo": {
+        "coordinates": [
+          85.082726,
+          -235.917561
+        ],
+        "type": "Point"
+      },
+      "address": {
+        "zipcode": "37923",
+        "city": "Knoxville",
+        "street1": "8925 Towne And Country Cir",
+        "state": "TN"
+      }
+    }
+  },
+  {
+    "id": "400-longitude_greater_than_180",
+    "theaterId": 169,
+    "location": {
+      "geo": {
+        "coordinates": [
+          185.082726,
+          35.917561
+        ],
+        "type": "Point"
+      },
+      "address": {
+        "zipcode": "37923",
+        "city": "Knoxville",
+        "street1": "8925 Towne And Country Cir",
+        "state": "TN"
+      }
+    }
+  },
+  {
+    "id": "400-state_naming-error",
+    "theaterId": 169,
+    "location": {
+      "geo": {
+        "coordinates": [
+          85.082726,
+          35.917561
+        ],
+        "type": "Point"
+      },
+      "address": {
+        "zipcode": "37923",
+        "city": "Knoxville",
+        "street1": "8925 Towne And Country Cir",
+        "state": "TNT"
+      }
+    }
+  },
+  {
+    "id": "400-zipcode_more_than_5_digits",
+    "theaterId": 169,
+    "location": {
+      "geo": {
+        "coordinates": [
+          85.082726,
+          35.917561
+        ],
+        "type": "Point"
+      },
+      "address": {
+        "zipcode": "379238",
+        "city": "Knoxville",
+        "street1": "8925 Towne And Country Cir",
+        "state": "TN"
+      }
+    }
+  },
+  {
+    "id": "400-zipcode_letters",
+    "theaterId": 169,
+    "location": {
+      "geo": {
+        "coordinates": [
+          85.082726,
+          35.917561
+        ],
+        "type": "Point"
+      },
+      "address": {
+        "zipcode": "37t23",
+        "city": "Knoxville",
+        "street1": "8925 Towne And Country Cir",
+        "state": "TN"
+      }
+    }
+  },
+  {
+    "id": "400-city_first_letter_lowercase",
+    "theaterId": 169,
+    "location": {
+      "geo": {
+        "coordinates": [
+          85.082726,
+          35.917561
+        ],
+        "type": "Point"
+      },
+      "address": {
+        "zipcode": "37923",
+        "city": "knoxville",
+        "street1": "8925 Towne And Country Cir",
+        "state": "TN"
+      }
+    }
+  },
+  {
+    "id": "400-empty_street_field",
+    "theaterId": 169,
+    "location": {
+      "geo": {
+        "coordinates": [
+          85.082726,
+          35.917561
+        ],
+        "type": "Point"
+      },
+      "address": {
+        "zipcode": "37923",
+        "city": "Knoxville",
+        "street1": "  ",
+        "state": "TN"
+      }
+    }
+  },
+  {
+    "id": "400-null_street_field",
+    "theaterId": 169,
+    "location": {
+      "geo": {
+        "coordinates": [
+          85.082726,
+          35.917561
+        ],
+        "type": "Point"
+      },
+      "address": {
+        "zipcode": "37923",
+        "city": "Knoxville",
+        "street1": null,
+        "state": "TN"
+      }
+    }
+  }
+]
