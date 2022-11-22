@@ -25,7 +25,6 @@ public class Comment {
     public String movie_id;
 
     @Field
-    @BsonProperty("text")
     public String text;
 
 
@@ -61,7 +60,7 @@ public class Comment {
         this.movie_id = movie_id;
     }
 
-    public String getText_id() {
+    public String getText() {
         return text;
     }
 
