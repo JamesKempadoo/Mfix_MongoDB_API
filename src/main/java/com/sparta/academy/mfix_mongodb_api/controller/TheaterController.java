@@ -1,9 +1,11 @@
 package com.sparta.academy.mfix_mongodb_api.controller;
 
 import com.sparta.academy.mfix_mongodb_api.entity.Theater;
+import com.sparta.academy.mfix_mongodb_api.exceptions.NoTheaterFoundException;
 import com.sparta.academy.mfix_mongodb_api.repositories.TheaterRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -21,9 +23,14 @@ public class TheaterController {
 
     @GetMapping("/theaters/all")
     public List<Theater> getUsers() {
-        return theaterRepository.findAll();
+        System.out.println("hi");return theaterRepository.findAll();
     }
-//    @GetMapping("")
-//    public void
+
+    @GetMapping("/theaters/{id}")
+    public Theater.Location getTheaterLocationByID(@PathVariable String id) throws NoTheaterFoundException {
+        Theater theater = theaterRepository.findById(id).orElseThrow(NoTheaterFoundException::new);
+
+        return theater.getLocation();
+    }
 
 }
