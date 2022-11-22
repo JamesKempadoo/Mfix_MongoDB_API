@@ -1,5 +1,6 @@
 package com.sparta.academy.mfix_mongodb_api.entity;
 
+import org.bson.codecs.pojo.annotations.BsonProperty;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
@@ -24,7 +25,7 @@ public class Comment {
     public String movie_id;
 
     @Field
-    public String text_id;
+    public String text;
 
 
     public String get_id() {
@@ -59,12 +60,12 @@ public class Comment {
         this.movie_id = movie_id;
     }
 
-    public String getText_id() {
-        return text_id;
+    public String getText() {
+        return text;
     }
 
-    public void setText_id(String text_id) {
-        this.text_id = text_id;
+    public void setText(String text) {
+        this.text = text;
     }
 
     public String getName() {
@@ -82,7 +83,7 @@ public class Comment {
                 ", date='" + date + '\'' +
                 ", email='" + email + '\'' +
                 ", movie_id=" + movie_id +
-                ", text_id='" + text_id + '\'' +
+                ", text_id='" + text + '\'' +
                 ", name='" + name + '\'' +
                 '}';
     }
