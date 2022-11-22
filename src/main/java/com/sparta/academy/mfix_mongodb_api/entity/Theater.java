@@ -78,6 +78,7 @@ public class Theater {
 							",address = '" + address + '\'' +
 							"}";
 		}
+
 	}
 
 	public static class Geo{
