@@ -2,19 +2,22 @@ package com.sparta.academy.mfix_mongodb_api.controller;
 
 import com.sparta.academy.mfix_mongodb_api.entity.User;
 import com.sparta.academy.mfix_mongodb_api.exceptions.IDNotFoundException;
+import com.sparta.academy.mfix_mongodb_api.logging.LoggerSingleton;
 import com.sparta.academy.mfix_mongodb_api.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @RestController
 public class UserController {
 
     private UserRepository userRepository;
+    private Logger logger = LoggerSingleton.getSingleton().getLogger();
+
     @Autowired
     public UserController(UserRepository userRepository) {
         this.userRepository = userRepository;
@@ -26,11 +29,21 @@ public class UserController {
     }
 
     @GetMapping("/users/{id}")
-    public User getUsers(@PathVariable String id) throws IDNotFoundException {
+    public User getUser(@PathVariable String id) throws IDNotFoundException {
         return userRepository.findById(id).orElseThrow(()
                 -> new IDNotFoundException(404, id, "ID not found")
         );
     }
 
-    
+    @DeleteMapping("/users/{id}")
+    public void deleteUser(@PathVariable String id) {
+        userRepository.deleteById(id);
+    }
+
+    @PostMapping("/users")
+    public User createUser(@RequestBody User user) {
+        logger.log(Level.INFO, user.toString());
+        return userRepository.save(user);
+    }
+
 }
