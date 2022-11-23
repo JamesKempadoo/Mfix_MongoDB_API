@@ -6,9 +6,14 @@ import org.springframework.data.mongodb.core.mapping.Field;
 import org.springframework.data.mongodb.core.mapping.FieldType;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 
 @Document( collection = "comments")
 public class Comment {
+
+    private static DateTimeFormatter format
+            = DateTimeFormatter.ofPattern("EEE-LLL-d-HH:mm:ss-zzz-yyyy", Locale.ENGLISH);
 
     @Id
     public String id;
@@ -17,7 +22,7 @@ public class Comment {
     public String name;
 
     @Field
-    public LocalDateTime date;
+    public String date;
 
     @Field
     public String email;
@@ -30,7 +35,7 @@ public class Comment {
 
     public Comment(String name, String email, String movieId, String text) {
         this.name = name;
-        this.date = LocalDateTime.now();
+        this.date = LocalDateTime.now().format(format);
         this.email = email;
         this.movieId = movieId;
         this.text = text;
@@ -44,10 +49,14 @@ public class Comment {
         this.id = id;
     }
 
-    public LocalDateTime getDate() {
+    public String getDate() {
         return date;
     }
-    public void setDate(LocalDateTime date) {
+
+    public LocalDateTime getDateAsLocalDateTime() {
+        return LocalDateTime.parse(date.replace(" ", "-"), format);
+    }
+    public void setDate(String date) {
         this.date = date;
     }
 
