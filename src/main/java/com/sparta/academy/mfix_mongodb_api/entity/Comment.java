@@ -1,46 +1,54 @@
 package com.sparta.academy.mfix_mongodb_api.entity;
 
-import org.bson.codecs.pojo.annotations.BsonProperty;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
+import org.springframework.data.mongodb.core.mapping.FieldType;
+
+import java.time.LocalDateTime;
 
 @Document( collection = "comments")
 public class Comment {
 
     @Id
-    @Field
-    public String _id;
+    public String id;
 
     @Field
     public String name;
 
     @Field
-    public String date;
+    public LocalDateTime date;
 
     @Field
     public String email;
 
-    @Field
-    public String movie_id;
+    @Field(targetType = FieldType.OBJECT_ID, value = "movie_id")
+    public String movieId;
 
     @Field
     public String text;
 
-
-    public String get_id() {
-        return _id;
+    public Comment(String id, String name, LocalDateTime date, String email, String movieId, String text) {
+        this.id = id;
+        this.name = name;
+        this.date = date;
+        this.email = email;
+        this.movieId = movieId;
+        this.text = text;
     }
 
-    public void set_id(String _id) {
-        this._id = _id;
+    public String getId() {
+        return id;
     }
 
-    public String getDate() {
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public LocalDateTime getDate() {
         return date;
     }
-
-    public void setDate(String date) {
+    public void setDate(LocalDateTime date) {
         this.date = date;
     }
 
@@ -52,12 +60,12 @@ public class Comment {
         this.email = email;
     }
 
-    public Object getMovie_id() {
-        return movie_id;
+    public String getMovie_id() {
+        return movieId;
     }
 
-    public void setMovie_id(String movie_id) {
-        this.movie_id = movie_id;
+    public void setMovie_id(String movieId) {
+        this.movieId = movieId;
     }
 
     public String getText() {
@@ -79,10 +87,10 @@ public class Comment {
     @Override
     public String toString() {
         return "Comment{" +
-                "_id=" + _id +
+                "_id=" + id +
                 ", date='" + date + '\'' +
                 ", email='" + email + '\'' +
-                ", movie_id=" + movie_id +
+                ", movie_id=" + movieId +
                 ", text_id='" + text + '\'' +
                 ", name='" + name + '\'' +
                 '}';
