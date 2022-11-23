@@ -17,7 +17,10 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.NullAndEmptySource;
 import org.junit.jupiter.params.provider.ValueSource;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
 
@@ -29,13 +32,9 @@ public class MovieDTOTests {
     private static ObjectMapper mapper;
 
     @BeforeAll
-    static void setUp()  {
+    static void setUp() {
 
-        response = ConnectionManager.from()
-                .baseURL()
-                .slash("movies")
-                .slash("573a1390f29313caabcd50e5")
-                .getResponse();
+        response = ConnectionManager.from().baseURL().slash("movies").slash("573a1390f29313caabcd50e5").getResponse();
 
         dto = response.getBodyAs(MovieDTO.class);
         imdb = dto.getImdb();
@@ -46,7 +45,7 @@ public class MovieDTOTests {
     @DisplayName("Check that Connection Response is 200")
     void checkThatConnectionResponseIs200() {
 
-        Assertions.assertEquals(200,response.getStatusCode());
+        Assertions.assertEquals(200, response.getStatusCode());
     }
 
     @Test
@@ -102,13 +101,13 @@ public class MovieDTOTests {
     @ParameterizedTest
     @NullAndEmptySource
     @DisplayName("Check that countries is not null or empty")
-    void checkCountriesNotNullOrEmpty(List<String> testCountries){
+    void checkCountriesNotNullOrEmpty(List<String> testCountries) {
         Assertions.assertNotEquals(testCountries, dto.getCountries());
     }
 
     @Test
     @DisplayName("Check that country names only contain letters")
-    void checkCountryNamesOnlyLetters(){
+    void checkCountryNamesOnlyLetters() {
         Assertions.assertTrue(dto.isArrayOnlyLetters(dto.getCountries()));
     }
 
@@ -116,7 +115,7 @@ public class MovieDTOTests {
     @ParameterizedTest
     @NullAndEmptySource
     @DisplayName("Check that title is not null or empty")
-    void checkTitleNotNullOrEmpty(String testTitle){
+    void checkTitleNotNullOrEmpty(String testTitle) {
         Assertions.assertNotEquals(testTitle, dto.getTitle());
     }
 
@@ -124,13 +123,13 @@ public class MovieDTOTests {
     @ParameterizedTest
     @NullAndEmptySource
     @DisplayName("Check that type is not null or empty")
-    void checkTypeNotNullOrEmpty(String testType){
+    void checkTypeNotNullOrEmpty(String testType) {
         Assertions.assertNotEquals(testType, dto.getType());
     }
 
     @Test
     @DisplayName("Check that type is 'movie' or 'series'")
-    void checkTypeIsMovieOrSeries(){
+    void checkTypeIsMovieOrSeries() {
         boolean isTypeCorrect = dto.getType().equals("movie") || dto.getType().equals("series");
         Assertions.assertTrue(isTypeCorrect);
     }
@@ -139,13 +138,13 @@ public class MovieDTOTests {
     @ParameterizedTest
     @NullAndEmptySource
     @DisplayName("Check that poster is not null or empty")
-    void checkPosterNotNullOrEmpty(String testPoster){
+    void checkPosterNotNullOrEmpty(String testPoster) {
         Assertions.assertNotEquals(testPoster, dto.getPoster());
     }
 
     @Test
     @DisplayName("Check that poster is a valid link")
-    void checkPosterIsValidLink(){
+    void checkPosterIsValidLink() {
         Assertions.assertTrue(dto.isValidURL(dto.getPoster()));
     }
 
@@ -153,37 +152,37 @@ public class MovieDTOTests {
     @ParameterizedTest
     @NullAndEmptySource
     @DisplayName("Check that released is not null or empty")
-    void checkReleasedNotNullOrEmpty(String testReleased){
+    void checkReleasedNotNullOrEmpty(String testReleased) {
         Assertions.assertNotEquals(testReleased, dto.getReleased());
     }
 
     @Test
     @DisplayName("Check that released is a valid date")
-    void checkReleasedIsValidDate(){
+    void checkReleasedIsValidDate() {
         Assertions.assertTrue(dto.isReleasedDateParseable());
     }
 
     @Test
     @DisplayName("Check That number of Mflix is null")
-    void checkThatNumMflixIsNull(){
+    void checkThatNumMflixIsNull() {
         Assertions.assertFalse(dto.isNumMflixCommentsNull());
     }
 
     @Test
     @DisplayName("Check That number of Mflix is valid")
-    void checkThatNumMflixIsValid(){
+    void checkThatNumMflixIsValid() {
         Assertions.assertTrue(dto.isNumMflixCommentsValid());
     }
 
     @Test
     @DisplayName("Check That cast of Mflix is null")
-    void checkThatCastIsNull(){
+    void checkThatCastIsNull() {
         Assertions.assertFalse(dto.isCastNull());
     }
 
     @Test
     @DisplayName("Check That cast of Mflix is empty")
-    void checkThatCastIsEmpty(){
+    void checkThatCastIsEmpty() {
         Assertions.assertFalse(dto.isTomatoesNull());
     }
 
@@ -213,14 +212,13 @@ public class MovieDTOTests {
 
     @Test
     @DisplayName("Checking genres is not empty")
-    void checkingGenresIsNotEmpty()
-    {
+    void checkingGenresIsNotEmpty() {
         Assertions.assertNotNull(dto.getGenres());
     }
+
     @Test
     @DisplayName("Checking lastUpdated is not empty")
-    void checkinglastUpdatedIsNotEmpty()
-    {
+    void checkinglastUpdatedIsNotEmpty() {
         Assertions.assertNotNull(dto.getLastupdated());
     }
 
@@ -229,10 +227,7 @@ public class MovieDTOTests {
     @DisplayName("Checking that all Movie Title include the word")
     void checkingThatAllMovieTitleIncludeTheWordBird(String str) {
 
-        ConnectionResponse test = ConnectionManager.from()
-                .baseURL()
-                .slash("movies?title="+str)
-                .getResponse();
+        ConnectionResponse test = ConnectionManager.from().baseURL().slash("movies?title=" + str).getResponse();
 
         MovieDTO[] movies = test.getBodyAsArrayOf(MovieDTO.class);
         boolean result = true;
@@ -247,41 +242,51 @@ public class MovieDTOTests {
     }
 
     @Test
+    @DisplayName("check If Movie is added")
+    void checkIfMovieIsAdded() {
+        //request body for POST request
+        String jsonBody = null;
+        try {
+            jsonBody = Files.readString(Paths.get("src/test/resources/MovieResponseExample.json"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        //get total movie count before adding a new one
+        ConnectionResponse responseNumberOfMovies = ConnectionManager.from().baseURL().slash("movies").slash("number").getResponse();
+        Integer numOfMoviesInRepo = responseNumberOfMovies.getBodyAs(Integer.class);
+        //add a new movie
+        ConnectionManager.from().baseURL().slash("movies").usingMethod("POST").withBody(jsonBody).getResponse();
+        //get movie count after adding for comparison
+        ConnectionResponse responseNumberOfMovies2 = ConnectionManager.from().baseURL().slash("movies").slash("number").getResponse();
+        Integer numOfMoviesInRepo2 = responseNumberOfMovies2.getBodyAs(Integer.class);
+        //-1 from new movie count since it should be one higher
+        Assertions.assertEquals((int) numOfMoviesInRepo, numOfMoviesInRepo2 - 1);
+    }
+
+    @Test
     @DisplayName("check If Movie is deleted")
     void checkIfMovieIsDeleted() {
+        //request body for POST request
+        String jsonBody = null;
+        try {
+            jsonBody = Files.readString(Paths.get("src/test/resources/MovieResponseExample.json"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
-//        ConnectionResponse testResponse = ConnectionManager.from().baseURL().slash("movies").usingMethod("POST").withBody(jsonBody).getResponse();
-//        String testMovieId = testResponse.getBodyAs(MovieDTO.class).getId();
-//
-//        try {
-//            MovieDTO movie = mapper.readValue(Paths.get("src/test/resources/MovieResponseExample.json").toFile(), MovieDTO.class);
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
-
-        ConnectionResponse responseNumberOfMovies = ConnectionManager.from()
-                .baseURL()
-                .slash("movies")
-                .slash("number")
-                .getResponse();
-
+        //add a temporary movie and get the ID for delete request
+        ConnectionResponse testResponse = ConnectionManager.from().baseURL().slash("movies").usingMethod("POST").withBody(jsonBody).getResponse();
+        String testMovieId = testResponse.getBodyAs(MovieDTO.class).getId();
+        //get total movie count before adding a new one
+        ConnectionResponse responseNumberOfMovies = ConnectionManager.from().baseURL().slash("movies").slash("number").getResponse();
         Integer numOfMoviesInRepo = responseNumberOfMovies.getBodyAs(Integer.class);
-
-        ConnectionResponse responseDeleteMovie = ConnectionManager.from()
-                .baseURL()
-                .slash("movies")
-                .slash("573a1392f29313caabcdb82a")
-                .usingMethod("Delete")
-                .getResponse();
-
-        ConnectionResponse responseNumberOfMovies2 = ConnectionManager.from()
-                .baseURL()
-                .slash("movies")
-                .slash("number")
-                .getResponse();
-
+        //delete the temporary  movie
+        ConnectionResponse responseDeleteMovie = ConnectionManager.from().baseURL().slash("movies").slash(testMovieId).usingMethod("Delete").getResponse();
+        //get total movie count after deleting the temporary one
+        ConnectionResponse responseNumberOfMovies2 = ConnectionManager.from().baseURL().slash("movies").slash("number").getResponse();
         Integer numOfMoviesInRepo2 = responseNumberOfMovies2.getBodyAs(Integer.class);
-
+        //+1 from new movie count since it should be one lower
         Assertions.assertEquals((int) numOfMoviesInRepo, numOfMoviesInRepo2 + 1);
     }
 }
