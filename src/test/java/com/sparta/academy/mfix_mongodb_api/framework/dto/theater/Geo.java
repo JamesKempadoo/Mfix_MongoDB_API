@@ -20,7 +20,7 @@ public class Geo{
 	}
 
 	public boolean hasValidCoordinates() {
-		return ((coordinates.get(0) >= -90 && coordinates.get(0) <=90) && (coordinates.get(1) >= -180 && coordinates.get(1) <=180));
+		return ((coordinates.get(1) >= -90 && coordinates.get(1) <=90) && (coordinates.get(0) >= -180 && coordinates.get(0) <=180));
 	}
 
 	public boolean isTypeNull() {
