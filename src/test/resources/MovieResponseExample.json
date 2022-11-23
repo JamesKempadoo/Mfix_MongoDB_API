@@ -1,0 +1,41 @@
+{
+  "id": "573a1392f29313caabcdb82a",
+  "year": "1938",
+  "directors": [
+    "Leni Riefenstahl"
+  ],
+  "runtime": 111,
+  "countries": [
+    "Germany"
+  ],
+  "title": "Olympia Part One: Festival of the Nations",
+  "type": "movie",
+  "num_mflix_comments": 1,
+  "cast": [
+    "David Albritton",
+    "Arvo Askola",
+    "Jack Beresford",
+    "Erwin Blask"
+  ],
+  "tomatoes": {
+    "viewer": {
+      "rating": 4,
+      "numReviews": 477
+    },
+    "lastUpdated": "Tue Sep 15 18:03:16 BST 2015"
+  },
+  "fullplot": "After being commissioned by the 1936 Olympic Committee to create a feature film of the Berlin Olympics, Riefenstahl shot a documentary that celebrates the human body by combining the poetry of bodies in motion with close-ups of athletes in the heat of competition. Includes the marathon, men's diving, and American track star Jesse Owen's sprint races at the 1936 Olympic games. The production tends to glorify the young male body and, some say, expresses the Nazi attitude toward athletic prowess. Includes the lighting of the torch at the stadium and Adolf Hitler looking on in amazement as Jesse Owens wins an unprecedented four Gold Medals.",
+  "imdb": {
+    "id": null,
+    "rating": 8,
+    "votes": 2741
+  },
+  "plot": "The document of the 1936 Olympics at Berlin.",
+  "genres": [
+    "Documentary",
+    "Sport"
+  ],
+  "lastupdated": "2015-08-17 00:13:27.640000000",
+  "poster": "https://m.media-amazon.com/images/M/MV5BMjAxMzM4NDk5MF5BMl5BanBnXkFtZTgwNjUzOTA2MjE@._V1_SY1000_SX677_AL_.jpg",
+  "released": "Fri Mar 08 01:00:00 BST 1940"
+}
