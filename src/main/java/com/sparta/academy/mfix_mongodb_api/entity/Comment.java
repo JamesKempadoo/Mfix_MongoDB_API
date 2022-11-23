@@ -1,16 +1,19 @@
 package com.sparta.academy.mfix_mongodb_api.entity;
 
+import com.mongodb.lang.NonNull;
+import org.bson.codecs.ObjectIdCodec;
 import org.bson.codecs.pojo.annotations.BsonProperty;
+import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
+import org.springframework.data.mongodb.core.mapping.MongoId;
 
 @Document( collection = "comments")
 public class Comment {
 
     @Id
-    @Field
-    public String _id;
+    public String id;
 
     @Field
     public String name;
@@ -27,13 +30,21 @@ public class Comment {
     @Field
     public String text;
 
+    public Comment(String id, @NonNull String name, String date, String email, String movie_id, String text) {
+        this.id = id;
+        this.name = name;
+        this.date = date;
+        this.email = email;
+        this.movie_id = movie_id;
+        this.text = text;
+    }
 
     public String get_id() {
-        return _id;
+        return id;
     }
 
     public void set_id(String _id) {
-        this._id = _id;
+        this.id = id;
     }
 
     public String getDate() {
@@ -52,7 +63,7 @@ public class Comment {
         this.email = email;
     }
 
-    public Object getMovie_id() {
+    public String getMovie_id() {
         return movie_id;
     }
 
@@ -79,7 +90,7 @@ public class Comment {
     @Override
     public String toString() {
         return "Comment{" +
-                "_id=" + _id +
+                "id=" + id +
                 ", date='" + date + '\'' +
                 ", email='" + email + '\'' +
                 ", movie_id=" + movie_id +
