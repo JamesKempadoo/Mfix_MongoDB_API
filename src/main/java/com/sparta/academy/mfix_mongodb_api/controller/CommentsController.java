@@ -25,8 +25,13 @@ public class CommentsController {
 
     //GET ---------------------------------------------------------------
     @GetMapping("/comments/all")
-    public List<Comment> getComments() {
-        return commentRepository.findAll();
+    public ResponseEntity<List<Comment>> getComments() {
+        try{
+            return new ResponseEntity<>(commentRepository.findAll(),HttpStatus.OK) ;
+        }catch (Exception e){
+            return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
+        }
+
     }
 
     @GetMapping("/comments/id/{id}")
@@ -43,14 +48,17 @@ public class CommentsController {
     }
 
     @GetMapping("/comments/name/{name}")
-    public List<Comment> getCommentsByName(@PathVariable String name) {
-        List<Comment> listOfEmails = new ArrayList<>();
+    public ResponseEntity<List<Comment>> getCommentsByName(@PathVariable String name) {
+        List<Comment> listOfNames = new ArrayList<>();
         for (Comment comment : commentRepository.findAll()){
             if (comment.name.contains(name)){
-                listOfEmails.add(comment);
+                listOfNames.add(comment);
             }
         }
-        return listOfEmails;
+        if (listOfNames.isEmpty()){
+            return new ResponseEntity<>(listOfNames,HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(listOfNames,HttpStatus.OK);
     }
 
     @GetMapping("/comments/date/{date}")
@@ -102,37 +110,47 @@ public class CommentsController {
     }
 
     @GetMapping("/comments/email/{email}")
-    public List<Comment> getEmailsByEmail(@PathVariable String email) {
+    public ResponseEntity<List<Comment>> getEmailsByEmail(@PathVariable String email) {
         List<Comment> listOfEmails = new ArrayList<>();
         for (Comment comment : commentRepository.findAll()){
             if (comment.email.equals(email)){
                 listOfEmails.add(comment);
             }
         }
-        return listOfEmails;
+        if (listOfEmails.isEmpty()){
+            return new ResponseEntity<>(listOfEmails,HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(listOfEmails,HttpStatus.OK);
     }
 
     @GetMapping("/comments/text/{text}")
-    public List<Comment> getCommentsByText(@PathVariable String text) {
-        List<Comment> listOfEmails = new ArrayList<>();
+    public ResponseEntity<List<Comment>> getCommentsByText(@PathVariable String text) {
+        List<Comment> listOfText = new ArrayList<>();
         for (Comment comment : commentRepository.findAll()){
             if (comment.text.contains(text.toLowerCase())){
-                listOfEmails.add(comment);
+                listOfText.add(comment);
             }
         }
-        return listOfEmails;
+        if (listOfText.isEmpty()){
+            return new ResponseEntity<>(listOfText,HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(listOfText,HttpStatus.OK);
+
     }
 
     //Request body with just the words you wanted to input e.g. Minima odit
     @GetMapping("/comments/text/")
-    public List<Comment> getCommentsByTextBody(@RequestBody String text) {
-        List<Comment> listOfEmails = new ArrayList<>();
+    public ResponseEntity<List<Comment>> getCommentsByTextBody(@RequestBody String text) {
+        List<Comment> listOfText = new ArrayList<>();
         for (Comment comment : commentRepository.findAll()){
             if (comment.text.contains(text)){
-                listOfEmails.add(comment);
+                listOfText.add(comment);
             }
         }
-        return listOfEmails;
+        if (listOfText.isEmpty()){
+            return new ResponseEntity<>(listOfText,HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(listOfText,HttpStatus.OK);
     }
 
     //PUT
