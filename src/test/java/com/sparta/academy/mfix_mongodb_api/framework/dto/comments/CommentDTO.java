@@ -1,39 +1,39 @@
-package com.sparta.academy.mfix_mongodb_api.entity;
+package com.sparta.academy.mfix_mongodb_api.framework.dto.comments;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.Field;
-import org.springframework.data.mongodb.core.mapping.FieldType;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
+public class CommentDTO {
 
-@Document( collection = "comments")
-public class Comment {
-
-    @Id
+    @JsonProperty
     public String id;
 
-    @Field
+    @JsonProperty
     public String name;
 
-    @Field(targetType = FieldType.DATE_TIME)
+    @JsonProperty
     public String date;
 
-    @Field
+    @JsonProperty
     public String email;
 
-    @Field(targetType = FieldType.OBJECT_ID, value = "movie_id")
+    @JsonProperty
     public String movieId;
 
-    @Field
+    @JsonProperty
     public String text;
 
-    public Comment(String date, String name, String email, String movieId, String text) {
+    public CommentDTO() {
+    }
+
+    public CommentDTO(String id, String name, String date, String email, String movieId, String text) {
+        this.id = id;
         this.name = name;
+        this.date = date;
         this.email = email;
         this.movieId = movieId;
         this.text = text;
-        this.date = date;
     }
+
 
     public String getId() {
         return id;
@@ -46,7 +46,6 @@ public class Comment {
     public String getDate() {
         return date;
     }
-
     public void setDate(String date) {
         this.date = date;
     }
