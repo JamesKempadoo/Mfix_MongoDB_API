@@ -28,10 +28,9 @@ public class Comment {
     @Field
     public String text;
 
-    public Comment(String id, String name, LocalDateTime date, String email, String movieId, String text) {
-        this.id = id;
+    public Comment(String name, String email, String movieId, String text) {
         this.name = name;
-        this.date = date;
+        this.date = LocalDateTime.now();
         this.email = email;
         this.movieId = movieId;
         this.text = text;
@@ -60,11 +59,11 @@ public class Comment {
         this.email = email;
     }
 
-    public String getMovie_id() {
+    public String getMovieId() {
         return movieId;
     }
 
-    public void setMovie_id(String movieId) {
+    public void setMovieId(String movieId) {
         this.movieId = movieId;
     }
 
@@ -87,11 +86,11 @@ public class Comment {
     @Override
     public String toString() {
         return "Comment{" +
-                "_id=" + id +
+                "id=" + id +
                 ", date='" + date + '\'' +
                 ", email='" + email + '\'' +
-                ", movie_id=" + movieId +
-                ", text_id='" + text + '\'' +
+                ", movieId=" + movieId +
+                ", text='" + text + '\'' +
                 ", name='" + name + '\'' +
                 '}';
     }
