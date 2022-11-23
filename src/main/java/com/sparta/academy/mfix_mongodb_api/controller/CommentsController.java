@@ -70,12 +70,12 @@ public class CommentsController {
         }
         for (Comment comment : commentRepository.findAll()){
             if (YMDN.size()!=0
-                    && comment.getDate().getYear() == YMDN.get(0)){
+                    && comment.getDateAsLocalDateTime().getYear() == YMDN.get(0)){
                 if (YMDN.size()==1){
                     listOfComments.add(comment);
-                } else if (comment.getDate().getMonthValue() == YMDN.get(1)){
+                } else if (comment.getDateAsLocalDateTime().getMonthValue() == YMDN.get(1)){
                     if (YMDN.size()==2
-                        ||comment.getDate().getDayOfMonth() == YMDN.get(2)){
+                        ||comment.getDateAsLocalDateTime().getDayOfMonth() == YMDN.get(2)){
                         listOfComments.add(comment);
                     }
                 }
