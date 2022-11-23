@@ -7,10 +7,9 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 
 public interface TheaterRepository extends MongoRepository<TheaterDTO,String>{
 
-//    TheaterDTO getTheatersByTheaterId(int id) throws NoTheaterFoundException;
-
     TheaterDTO getTheaterDTOByTheaterId(Integer id) throws NoTheaterFoundException;
     boolean existsByTheaterId(Integer id);
     void deleteTheaterDTOByTheaterId(Integer id);
     void removeTheaterDTOByTheaterId(Integer id);
+
 }
