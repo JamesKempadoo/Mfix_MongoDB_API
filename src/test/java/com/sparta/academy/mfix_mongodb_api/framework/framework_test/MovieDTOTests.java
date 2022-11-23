@@ -1,9 +1,14 @@
 package com.sparta.academy.mfix_mongodb_api.framework.framework_test;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sparta.academy.mfix_mongodb_api.controller.MovieController;
+import com.sparta.academy.mfix_mongodb_api.entity.Movie;
 import com.sparta.academy.mfix_mongodb_api.framework.connection.ConnectionManager;
 import com.sparta.academy.mfix_mongodb_api.framework.connection.ConnectionResponse;
 import com.sparta.academy.mfix_mongodb_api.framework.dto.movie.Imdb;
 import com.sparta.academy.mfix_mongodb_api.framework.dto.movie.MovieDTO;
+import com.sparta.academy.mfix_mongodb_api.framework.dto.theater.TheaterDTO;
+import com.sparta.academy.mfix_mongodb_api.repositories.MovieRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
@@ -12,6 +17,8 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.NullAndEmptySource;
 import org.junit.jupiter.params.provider.ValueSource;
 
+import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.List;
 
 public class MovieDTOTests {
@@ -19,6 +26,7 @@ public class MovieDTOTests {
     private static MovieDTO dto;
     private static Imdb imdb;
     private static ConnectionResponse response;
+    private static ObjectMapper mapper;
 
     @BeforeAll
     static void setUp()  {
@@ -31,7 +39,7 @@ public class MovieDTOTests {
 
         dto = response.getBodyAs(MovieDTO.class);
         imdb = dto.getImdb();
-        System.out.println(dto.toString());
+        mapper = new ObjectMapper();
     }
 
     @Test
@@ -236,5 +244,44 @@ public class MovieDTOTests {
             }
         }
         Assertions.assertTrue(result);
+    }
+
+    @Test
+    @DisplayName("check If Movie is deleted")
+    void checkIfMovieIsDeleted() {
+
+//        ConnectionResponse testResponse = ConnectionManager.from().baseURL().slash("movies").usingMethod("POST").withBody(jsonBody).getResponse();
+//        String testMovieId = testResponse.getBodyAs(MovieDTO.class).getId();
+//
+//        try {
+//            MovieDTO movie = mapper.readValue(Paths.get("src/test/resources/MovieResponseExample.json").toFile(), MovieDTO.class);
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
+
+        ConnectionResponse responseNumberOfMovies = ConnectionManager.from()
+                .baseURL()
+                .slash("movies")
+                .slash("number")
+                .getResponse();
+
+        Integer numOfMoviesInRepo = responseNumberOfMovies.getBodyAs(Integer.class);
+
+        ConnectionResponse responseDeleteMovie = ConnectionManager.from()
+                .baseURL()
+                .slash("movies")
+                .slash("573a1392f29313caabcdb82a")
+                .usingMethod("Delete")
+                .getResponse();
+
+        ConnectionResponse responseNumberOfMovies2 = ConnectionManager.from()
+                .baseURL()
+                .slash("movies")
+                .slash("number")
+                .getResponse();
+
+        Integer numOfMoviesInRepo2 = responseNumberOfMovies2.getBodyAs(Integer.class);
+
+        Assertions.assertEquals((int) numOfMoviesInRepo, numOfMoviesInRepo2 + 1);
     }
 }

@@ -19,7 +19,7 @@ public class MovieController {
     private final MovieRepository repository;
 
     @Autowired
-    MovieController(MovieRepository repository) {
+    public MovieController(MovieRepository repository) {
 
         this.repository = repository;
     }
@@ -234,6 +234,12 @@ public class MovieController {
         }
         //if no issues occured then return the completed
         return response;
+    }
+
+    @GetMapping("movies/number")
+    public int getNumber() {
+
+        return repository.countMovieByIdNotNull();
     }
 }
 
