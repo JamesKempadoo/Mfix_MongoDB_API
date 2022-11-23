@@ -1,6 +1,6 @@
 package com.sparta.academy.mfix_mongodb_api.controller;
 
-import com.sparta.academy.mfix_mongodb_api.entity.User;
+import com.sparta.academy.mfix_mongodb_api.model.entity.User;
 import com.sparta.academy.mfix_mongodb_api.exceptions.IDNotFoundException;
 import com.sparta.academy.mfix_mongodb_api.logging.LoggerSingleton;
 import com.sparta.academy.mfix_mongodb_api.repositories.UserRepository;
@@ -8,8 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 @RestController

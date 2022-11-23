@@ -1,4 +1,4 @@
-package com.sparta.academy.mfix_mongodb_api.entity;
+package com.sparta.academy.mfix_mongodb_api.model.entity;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;

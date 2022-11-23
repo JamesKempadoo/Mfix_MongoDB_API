@@ -3,6 +3,7 @@ package com.sparta.academy.mfix_mongodb_api.framework.framework_test;
 import com.sparta.academy.mfix_mongodb_api.framework.connection.ConnectionResponse;
 import com.sparta.academy.mfix_mongodb_api.framework.dto.UserDTO;
 import org.junit.jupiter.api.*;
+import org.springframework.transaction.annotation.Transactional;
 
 import static com.sparta.academy.mfix_mongodb_api.framework.connection.ConnectionManager.*;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -26,7 +27,7 @@ public class UserFrameworkTest {
     }
 
     @Nested
-    @DisplayName("User Tests")
+    @DisplayName("GET, all Users Tests")
     class UserArrayTests {
 
         @Nested
@@ -65,11 +66,11 @@ public class UserFrameworkTest {
     }
 
     @Nested
-    @DisplayName("User Tests")
+    @DisplayName("GET, User Tests")
     class UserTests {
 
         @Nested
-        @DisplayName("Status Code Tests")
+        @DisplayName("GET, Status Code Tests")
         class StatusCodeTests {
 
             @Test
@@ -91,7 +92,8 @@ public class UserFrameworkTest {
         }
 
         @Nested
-        class ResponseBodyTests {
+        @DisplayName("GET, Response Body Tests")
+        class ResponseBodyGetTests {
             @Test
             @DisplayName("Test that name is not blank")
             void TestThatNameIsNotBlank() {
@@ -149,5 +151,41 @@ public class UserFrameworkTest {
 
     }
 
+    @Nested
+    @DisplayName("DELETE, User tests")
+    class UserDeleteTests {
+
+        // WHEN a user is deleted THEN the http status response is 200 SO THAT the requester knows that the call succeeded
+        // WHEN a user is deleted THEN getting a list of users with the same id should return an empty collection SO THAT the users data is ensured to have been removed
+        // WHEN a user that does not exist is deleted THEN the http status response is 400 and the response body should be a json error telling the user that the user does not exist SO THAT the caller is aware of the user not existing
+
+        @Nested
+        @DisplayName("DELETE, Status Code Tests")
+        class StatusCodeTests {
+
+            @Test
+            @Transactional
+            @DisplayName("Test that status code is 200")
+            void TestThatStatusCodeIs200() {
+                ConnectionResponse response = from().baseURL().slash("users").slash("59b99db6cfa9a34dcd7885bb").usingMethod("DELETE").getResponse();
+                Assertions.assertEquals(200, response.getStatusCode());
+            }
+
+        }
+
+        @Nested
+        @Transactional
+        @DisplayName("DELETE, User tests")
+        class Response {
+
+        }
+
+        @Test
+        @Transactional
+        @DisplayName("Test that user is deleted")
+        void TestThatUserIsDeleted() {
+
+        }
+    }
 
 }

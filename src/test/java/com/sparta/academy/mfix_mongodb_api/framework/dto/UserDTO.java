@@ -1,8 +1,6 @@
 package com.sparta.academy.mfix_mongodb_api.framework.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.sparta.academy.mfix_mongodb_api.entity.User;
-import nonapi.io.github.classgraph.json.Id;
 
 public class UserDTO {
 
