@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -32,7 +34,6 @@ public class MovieController {
     @GetMapping("/movies/{id}")
     public ResponseEntity<String> getAllMovies(@PathVariable String id){
 
-
         ResponseEntity<String> response;
         ObjectMapper objectMapper = new ObjectMapper();
 
@@ -42,7 +43,110 @@ public class MovieController {
         } catch (JsonProcessingException | NoSuchElementException e) {
             response = ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No Movie with ID " + id);
         }
+        return response;
+    }
 
+    @GetMapping("/movies/title/{title}")
+    public ResponseEntity<String> getAllTitleContains(@PathVariable String title) {
+
+        ResponseEntity<String> response;
+        ObjectMapper objectMapper = new ObjectMapper();
+        List<Movie> list = repository.getAllByTitleContains(title);
+
+        if(list.size() == 0) {
+            response = ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No Movie with " + title + " in the title");
+        } else {
+            try {
+                response = new ResponseEntity<>(objectMapper.writeValueAsString(list), HttpStatus.OK);
+            } catch (JsonProcessingException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return response;
+    }
+
+    @GetMapping(value = "/movies/actor/{actorName}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> getAllMoviesByActorName(@PathVariable String actorName){
+        ResponseEntity<String> response;
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        List<Movie> movieList = repository.findAll();
+        List<Movie> matchingMovies = new ArrayList<>();
+        for (Movie movie : movieList) {
+            if(movie.getCast() != null){
+                for(String actor : movie.getCast()){
+                    if(actor.contains(actorName)){
+                        matchingMovies.add(movie);
+                    }
+                }
+            }
+        }
+        try {
+            if(matchingMovies.isEmpty()){
+                response = ResponseEntity.status(HttpStatus.NO_CONTENT).body("No movies found");
+            }else {
+                response = new ResponseEntity<>(objectMapper.writeValueAsString(matchingMovies), HttpStatus.OK);
+            }
+        } catch (JsonProcessingException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error processing JSON");
+        }
+        return response;
+    }
+
+    @GetMapping("/movies/genre/{genre}")
+    public ResponseEntity<String> getAllByGenre(@PathVariable String genre) {
+
+        ResponseEntity<String> response;
+        ObjectMapper objectMapper = new ObjectMapper();
+        List<Movie> list = repository.getAllByGenresContaining(genre);
+
+        if(list.size() == 0) {
+            response = ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No Movie of the Genre: " + genre);
+        } else {
+            try {
+                response = new ResponseEntity<>(objectMapper.writeValueAsString(list), HttpStatus.OK);
+            } catch (JsonProcessingException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return response;
+    }
+
+    @GetMapping("/movies/director/{director}")
+    public ResponseEntity<String> getAllByDirector(@PathVariable String director) {
+
+        ResponseEntity<String> response;
+        ObjectMapper objectMapper = new ObjectMapper();
+        List<Movie> list = repository.getAllByDirectorsContains(director);
+
+        if(list.size() == 0) {
+            response = ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No Movie directed by " + director);
+        } else {
+            try {
+                response = new ResponseEntity<>(objectMapper.writeValueAsString(list), HttpStatus.OK);
+            } catch (JsonProcessingException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return response;
+    }
+
+    @GetMapping("/movies/released_between/{startYear}/{endYear}")
+    public ResponseEntity<String> getAllBetween(@PathVariable int startYear, @PathVariable int endYear) {
+
+        ResponseEntity<String> response;
+        ObjectMapper objectMapper = new ObjectMapper();
+        List<Movie> list = repository.getAllByYearBetween(startYear, endYear);
+
+        if(list.size() == 0) {
+            response = ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No Movie release between " + startYear + " and " + endYear);
+        } else {
+            try {
+                response = new ResponseEntity<>(objectMapper.writeValueAsString(list), HttpStatus.OK);
+            } catch (JsonProcessingException e) {
+                throw new RuntimeException(e);
+            }
+        }
         return response;
     }
 
@@ -54,7 +158,6 @@ public class MovieController {
         } catch (NoSuchElementException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No Movie with ID " + id);
         }
-
         return ResponseEntity.status(HttpStatus.OK).body("Movie with ID " + id + " has been deleted Successfully!");
     }
 
