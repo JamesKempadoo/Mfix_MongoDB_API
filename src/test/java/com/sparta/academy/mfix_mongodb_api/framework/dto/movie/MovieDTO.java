@@ -1,9 +1,14 @@
 package com.sparta.academy.mfix_mongodb_api.framework.dto.movie;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.List;
+import java.util.Locale;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class MovieDTO{
@@ -162,8 +167,98 @@ public class MovieDTO{
 		return false;
 	}
 
-//	public boolean isTitleNotEmpty(String title){
-//
-//
-//	}
+	public boolean isDirectorsNull() {
+
+		return directors == null;
+	}
+
+	public boolean isDirectorsEmpty() {
+
+		return directors.size() == 0;
+	}
+
+	public boolean isYearNull() {
+
+		return year == null;
+	}
+
+	public boolean isYearEmpty() {
+
+		return year.length() == 0;
+	}
+
+	public boolean isRunTimeNull() {
+
+		return runtime == null;
+	}
+
+	public boolean isRunTimeAboveZero() {
+
+		return runtime > 0;
+	}
+
+	public boolean isYearAfter2022() {
+
+		return Integer.parseInt(year) >= 2022;
+	}
+
+	private static final DateTimeFormatter releasedFormat = DateTimeFormatter.ofPattern("EEE-LLL-d-HH:mm:ss-zzz-yyyy", Locale.ENGLISH);
+	public boolean isReleasedDateParseable(){
+		try {
+			LocalDateTime.parse(released.replace(" ", "-"), releasedFormat);
+			return true;
+		} catch (DateTimeParseException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+
+	public boolean isValidURL(String URL){
+		boolean isValid = false;
+		try {
+			java.net.URL posterURL = new URL(URL);
+			isValid = true;
+		} catch (MalformedURLException ignored) {}
+		return isValid;
+	}
+
+	public boolean isArrayOnlyLetters(List<String> list){
+		boolean isOnlyLetters = true;
+		//loop through list of countries
+		for(String item : list){
+			//regex to check if it only contains letters
+			if (!item.matches("[a-zA-Z]+")) {
+				isOnlyLetters = false;
+				break;
+			}
+		}
+		return isOnlyLetters;
+	}
+
+	public  boolean isNumMflixCommentsNull(){
+		return numMflixComments == null;
+	}
+
+	public  boolean isNumMflixCommentsValid(){
+		try {
+			if (numMflixComments >= 0){
+				return true;
+			}
+		} catch (IllegalArgumentException e){
+			e.printStackTrace();
+		}
+		return false;
+	}
+
+	public  boolean isCastNull(){
+		return cast == null;
+	}
+
+	public boolean isCastEmpty(){
+		return cast.isEmpty();
+	}
+
+	public  boolean isTomatoesNull(){
+		return tomatoes == null;
+	}
 }

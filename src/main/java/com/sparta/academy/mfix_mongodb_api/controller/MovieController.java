@@ -9,7 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -44,7 +43,7 @@ public class MovieController {
             try {
                 return new ResponseEntity<>(objectMapper.writeValueAsString(repository.findAll()),HttpStatus.OK);
             } catch (JsonProcessingException e) {
-                throw new RuntimeException(e);
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error processing JSON");
             }
         }
     }
@@ -96,7 +95,7 @@ public class MovieController {
         }
         try {
             if (matchingMovies.isEmpty()) {
-                response = ResponseEntity.status(HttpStatus.NO_CONTENT).body("No movies found with actor: "+actorName);
+                response = ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No movies found with actor: "+actorName);
             } else {
                 response = new ResponseEntity<>(objectMapper.writeValueAsString(matchingMovies), HttpStatus.OK);
             }
@@ -131,7 +130,7 @@ public class MovieController {
         List<Movie> matchingMovies = new ArrayList<>();
         for (Movie movie : movieList) {
             if (movie.getDirectors() != null) {
-                for (String directorItem : movie.getCast()) {
+                for (String directorItem : movie.getDirectors()) {
                     if (directorItem.contains(director)) {
                         matchingMovies.add(movie);
                     }
@@ -140,7 +139,7 @@ public class MovieController {
         }
         try {
             if (matchingMovies.isEmpty()) {
-                response = ResponseEntity.status(HttpStatus.NO_CONTENT).body("No movies found directed by: "+director);
+                response = ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No movies found directed by: "+director);
             } else {
                 response = new ResponseEntity<>(objectMapper.writeValueAsString(matchingMovies), HttpStatus.OK);
             }
