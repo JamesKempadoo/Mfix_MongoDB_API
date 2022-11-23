@@ -152,6 +152,7 @@ public class MovieDTO{
 	}
 
 	public boolean isDateParseable(String date){
+
 		try {
 			LocalDate.parse(date, DateTimeFormatter.ISO_DATE_TIME);
 			return true;
@@ -160,4 +161,9 @@ public class MovieDTO{
 		}
 		return false;
 	}
+
+//	public boolean isTitleNotEmpty(String title){
+//
+//
+//	}
 }

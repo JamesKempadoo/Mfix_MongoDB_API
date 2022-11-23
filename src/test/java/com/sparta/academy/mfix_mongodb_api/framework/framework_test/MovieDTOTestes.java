@@ -1,4 +1,4 @@
-package com.sparta.academy.mfix_mongodb_api.controller_tests;
+package com.sparta.academy.mfix_mongodb_api.framework.framework_test;
 
 import com.sparta.academy.mfix_mongodb_api.framework.connection.ConnectionManager;
 import com.sparta.academy.mfix_mongodb_api.framework.connection.ConnectionResponse;
@@ -8,7 +8,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-public class MovieControllerTester {
+public class MovieDTOTestes {
 
     private static MovieDTO dto;
     private static ConnectionResponse response;
@@ -16,19 +16,20 @@ public class MovieControllerTester {
     @BeforeAll
     static void setUp()  {
 
-        response = ConnectionManager.from().
-                baseURL().
-                slash("movies").
-                getResponse();
+        response = ConnectionManager.from()
+                .baseURL()
+                .slash("movies")
+                .slash("573a1390f29313caabcd50e5")
+                .getResponse();
 
         dto = response.getBodyAs(MovieDTO.class);
         System.out.println(dto.toString());
     }
 
     @Test
-    @DisplayName("Check That date is in correct format")
-    void checkThatDateIsInCorrectFormat() {
+    @DisplayName("Check that Connection Response is 200")
+    void checkThatConnectionResponseIs200() {
 
-        Assertions.assertTrue(dto.isDateParseable(dto.getReleased()));
+        Assertions.assertEquals(200,response.getStatusCode());
     }
 }
