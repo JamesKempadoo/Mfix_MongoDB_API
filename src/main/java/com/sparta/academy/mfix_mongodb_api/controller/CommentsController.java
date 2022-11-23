@@ -197,11 +197,11 @@ public class CommentsController {
         return  isValueValid(comment.getEmail()) &&
                 isValueValid(comment.getName()) &&
                 isValueValid(comment.getText()) &&
-                isValueValid(comment.getMovie_id());
+                isValueValid(comment.getMovieId());
     }
 
     public boolean isValueValid(String value) {
-        return value != null && value.length() >0;
+        return value != null && value.length() > 0;
     }
 
 }
