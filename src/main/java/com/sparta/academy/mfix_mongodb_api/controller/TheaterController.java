@@ -1,10 +1,13 @@
 package com.sparta.academy.mfix_mongodb_api.controller;
 
-import com.sparta.academy.mfix_mongodb_api.entity.Theater;
+//import com.sparta.academy.mfix_mongodb_api.entity.Theater;
+
+import com.sparta.academy.mfix_mongodb_api.entity.theater.Location;
+import com.sparta.academy.mfix_mongodb_api.entity.theater.TheaterDTO;
+import com.sparta.academy.mfix_mongodb_api.exceptions.NoTheaterFoundException;
 import com.sparta.academy.mfix_mongodb_api.repositories.TheaterRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -20,10 +23,58 @@ public class TheaterController {
 
 
     @GetMapping("/theaters/all")
-    public List<Theater> getUsers() {
+    public List<TheaterDTO> getAllTheaters() {
         return theaterRepository.findAll();
     }
-//    @GetMapping("")
-//    public void
 
+    @GetMapping("/theaters/{id}")
+    public TheaterDTO getTheaterByID(@PathVariable Integer id) throws NoTheaterFoundException {
+
+        TheaterDTO theater = null;
+        theater = theaterRepository.getTheaterDTOByTheaterId(id);
+
+        if(theater == null){
+            throw new NoTheaterFoundException();
+        }
+        return theater;
+    }
+
+    @PostMapping("/theaters/new")
+    public TheaterDTO addNewTheater(@RequestBody TheaterDTO theater) {
+        if(theaterRepository.findAll().contains(theaterRepository.getTheaterDTOByTheaterId(theater.getTheaterId()))){
+            throw new RuntimeException();
+        }
+        theaterRepository.save(theater);
+        return theater;
+    }
+
+    @PatchMapping(value = "/theaters/{id}", consumes = "application/json")
+    public TheaterDTO updateTheaterLocationByTheaterID(@PathVariable Integer id, @RequestBody Location location) throws NoTheaterFoundException {
+        TheaterDTO theater = theaterRepository.getTheaterDTOByTheaterId(id);
+
+        System.out.println(location.toString());
+        if(theater != null){
+            theater.setLocation(location);
+            theaterRepository.save(theater);
+        } else {
+            throw new NoTheaterFoundException();
+        }
+
+
+        return theater;
+    }
+
+    @DeleteMapping("/theaters/{id}")
+    public String removeTheaterbyId(@PathVariable Integer id){
+
+        if(theaterRepository.existsByTheaterId(id)){
+            theaterRepository.deleteTheaterDTOByTheaterId(id);
+//            theaterRepository.removeTheaterDTOByTheaterId(id);
+
+        } else {
+            throw new NoTheaterFoundException();
+        }
+        return "Theater removed successfully";
+
+    }
 }

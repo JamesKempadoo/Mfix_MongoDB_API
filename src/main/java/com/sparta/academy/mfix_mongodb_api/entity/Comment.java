@@ -1,16 +1,22 @@
 package com.sparta.academy.mfix_mongodb_api.entity;
 
-import org.bson.codecs.pojo.annotations.BsonProperty;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
+import org.springframework.data.mongodb.core.mapping.FieldType;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 
 @Document( collection = "comments")
 public class Comment {
 
+    private static DateTimeFormatter format
+            = DateTimeFormatter.ofPattern("EEE-LLL-d-HH:mm:ss-zzz-yyyy", Locale.ENGLISH);
+
     @Id
-    @Field
-    public String _id;
+    public String id;
 
     @Field
     public String name;
@@ -21,25 +27,35 @@ public class Comment {
     @Field
     public String email;
 
-    @Field
-    public String movie_id;
+    @Field(targetType = FieldType.OBJECT_ID, value = "movie_id")
+    public String movieId;
 
     @Field
     public String text;
 
-
-    public String get_id() {
-        return _id;
+    public Comment(String name, String email, String movieId, String text) {
+        this.name = name;
+        this.date = LocalDateTime.now().format(format);
+        this.email = email;
+        this.movieId = movieId;
+        this.text = text;
     }
 
-    public void set_id(String _id) {
-        this._id = _id;
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getDate() {
         return date;
     }
 
+    public LocalDateTime getDateAsLocalDateTime() {
+        return LocalDateTime.parse(date.replace(" ", "-"), format);
+    }
     public void setDate(String date) {
         this.date = date;
     }
@@ -52,12 +68,12 @@ public class Comment {
         this.email = email;
     }
 
-    public Object getMovie_id() {
-        return movie_id;
+    public String getMovieId() {
+        return movieId;
     }
 
-    public void setMovie_id(String movie_id) {
-        this.movie_id = movie_id;
+    public void setMovieId(String movieId) {
+        this.movieId = movieId;
     }
 
     public String getText() {
@@ -79,11 +95,11 @@ public class Comment {
     @Override
     public String toString() {
         return "Comment{" +
-                "_id=" + _id +
+                "id=" + id +
                 ", date='" + date + '\'' +
                 ", email='" + email + '\'' +
-                ", movie_id=" + movie_id +
-                ", text_id='" + text + '\'' +
+                ", movieId=" + movieId +
+                ", text='" + text + '\'' +
                 ", name='" + name + '\'' +
                 '}';
     }
