@@ -21,7 +21,6 @@ public class CommentsController {
         this.userRepository = userRepository;
     }
 
-
     //GET ---------------------------------------------------------------
     @GetMapping("/comments/all")
     public List<Comment> getComments() {
@@ -29,9 +28,18 @@ public class CommentsController {
     }
 
     @GetMapping("/comments/id/{id}")
-    public Optional<Comment> getCommentsById(@PathVariable String id) {
-        return commentRepository.findById(id);
+    public ResponseEntity<Comment> getCommentsById(@PathVariable String id) {
+
+        HttpStatus status = HttpStatus.OK;
+        Comment comment = null;
+        if ( commentRepository.existsById(id) ) {
+            comment = commentRepository.findCommentById(id);
+        } else {
+            status = HttpStatus.NOT_FOUND;
+        }
+        return new ResponseEntity<>(comment, status);
     }
+
     @GetMapping("/comments/name/{name}")
     public List<Comment> getCommentsByName(@PathVariable String name) {
         List<Comment> listOfEmails = new ArrayList<>();
@@ -120,8 +128,9 @@ public class CommentsController {
         }
         return listOfEmails;
     }
+
     //PUT
-//     UPDATE COMMENT [ updates comment text ]
+    //UPDATE COMMENT [ updates comment text ]
     @PutMapping("/comments/id/{id}")
     public ResponseEntity<Comment> updateCommentWithID(@RequestBody String text, @PathVariable String id) {
 
@@ -194,7 +203,5 @@ public class CommentsController {
     public boolean isValueValid(String value) {
         return value != null && value.length() >0;
     }
-
-
 
 }
