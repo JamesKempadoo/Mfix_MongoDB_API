@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.*;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @RestController
@@ -23,8 +25,13 @@ public class CommentsController {
 
     //GET ---------------------------------------------------------------
     @GetMapping("/comments/all")
-    public List<Comment> getComments() {
-        return commentRepository.findAll();
+    public ResponseEntity<List<Comment>> getComments() {
+        try{
+            return new ResponseEntity<>(commentRepository.findAll(),HttpStatus.OK) ;
+        }catch (Exception e){
+            return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
+        }
+
     }
 
     @GetMapping("/comments/id/{id}")
@@ -41,14 +48,17 @@ public class CommentsController {
     }
 
     @GetMapping("/comments/name/{name}")
-    public List<Comment> getCommentsByName(@PathVariable String name) {
-        List<Comment> listOfEmails = new ArrayList<>();
+    public ResponseEntity<List<Comment>> getCommentsByName(@PathVariable String name) {
+        List<Comment> listOfNames = new ArrayList<>();
         for (Comment comment : commentRepository.findAll()){
             if (comment.name.contains(name)){
-                listOfEmails.add(comment);
+                listOfNames.add(comment);
             }
         }
-        return listOfEmails;
+        if (listOfNames.isEmpty()){
+            return new ResponseEntity<>(listOfNames,HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(listOfNames,HttpStatus.OK);
     }
 
     @GetMapping("/comments/date/{date}")
@@ -59,6 +69,8 @@ public class CommentsController {
         if (date==null){
             return new ResponseEntity<>(listOfComments, HttpStatus.BAD_REQUEST);
         }
+        DateTimeFormatter format
+                = DateTimeFormatter.ofPattern("EEE-LLL-d-HH:mm:ss-zzz-yyyy", Locale.ENGLISH);
         List<String> YMD = List.of(date.split("-"));
         List<Integer> YMDN = new ArrayList<>();
         for (String s: YMD){
@@ -69,13 +81,15 @@ public class CommentsController {
             }
         }
         for (Comment comment : commentRepository.findAll()){
+            LocalDateTime localDateTime = LocalDateTime.parse(comment.getDate().replace(" ", "-"), format);
+
             if (YMDN.size()!=0
-                    && comment.getDateAsLocalDateTime().getYear() == YMDN.get(0)){
+                    && localDateTime.getYear() == YMDN.get(0)){
                 if (YMDN.size()==1){
                     listOfComments.add(comment);
-                } else if (comment.getDateAsLocalDateTime().getMonthValue() == YMDN.get(1)){
+                } else if (localDateTime.getMonthValue() == YMDN.get(1)){
                     if (YMDN.size()==2
-                        ||comment.getDateAsLocalDateTime().getDayOfMonth() == YMDN.get(2)){
+                        ||localDateTime.getDayOfMonth() == YMDN.get(2)){
                         listOfComments.add(comment);
                     }
                 }
@@ -96,37 +110,47 @@ public class CommentsController {
     }
 
     @GetMapping("/comments/email/{email}")
-    public List<Comment> getEmailsByEmail(@PathVariable String email) {
+    public ResponseEntity<List<Comment>> getEmailsByEmail(@PathVariable String email) {
         List<Comment> listOfEmails = new ArrayList<>();
         for (Comment comment : commentRepository.findAll()){
             if (comment.email.equals(email)){
                 listOfEmails.add(comment);
             }
         }
-        return listOfEmails;
+        if (listOfEmails.isEmpty()){
+            return new ResponseEntity<>(listOfEmails,HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(listOfEmails,HttpStatus.OK);
     }
 
     @GetMapping("/comments/text/{text}")
-    public List<Comment> getCommentsByText(@PathVariable String text) {
-        List<Comment> listOfEmails = new ArrayList<>();
+    public ResponseEntity<List<Comment>> getCommentsByText(@PathVariable String text) {
+        List<Comment> listOfText = new ArrayList<>();
         for (Comment comment : commentRepository.findAll()){
             if (comment.text.contains(text.toLowerCase())){
-                listOfEmails.add(comment);
+                listOfText.add(comment);
             }
         }
-        return listOfEmails;
+        if (listOfText.isEmpty()){
+            return new ResponseEntity<>(listOfText,HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(listOfText,HttpStatus.OK);
+
     }
 
     //Request body with just the words you wanted to input e.g. Minima odit
     @GetMapping("/comments/text/")
-    public List<Comment> getCommentsByTextBody(@RequestBody String text) {
-        List<Comment> listOfEmails = new ArrayList<>();
+    public ResponseEntity<List<Comment>> getCommentsByTextBody(@RequestBody String text) {
+        List<Comment> listOfText = new ArrayList<>();
         for (Comment comment : commentRepository.findAll()){
             if (comment.text.contains(text)){
-                listOfEmails.add(comment);
+                listOfText.add(comment);
             }
         }
-        return listOfEmails;
+        if (listOfText.isEmpty()){
+            return new ResponseEntity<>(listOfText,HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(listOfText,HttpStatus.OK);
     }
 
     //PUT
@@ -152,6 +176,14 @@ public class CommentsController {
 
         HttpStatus status = HttpStatus.OK;
         Comment insertedComment = null;
+
+
+        // Create insertion timestamp
+        ZonedDateTime zdt = LocalDateTime.now().atZone(ZoneOffset.UTC);
+        DateTimeFormatter format = DateTimeFormatter.ofPattern("EEE LLL d HH:mm:ss zzz yyyy", Locale.ENGLISH);
+
+        // Set timestamp
+        comment.setDate(zdt.format(format));
 
         if (isCommentBodyValid(comment)) {
             insertedComment = commentRepository.save(comment);
