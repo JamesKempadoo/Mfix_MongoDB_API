@@ -1,4 +1,4 @@
-package com.sparta.academy.mfix_mongodb_api.model.entity.theater;
+package com.sparta.academy.mfix_mongodb_api.entity.theater;
 
 //@Document(collection = "addresses")
 public class Address {

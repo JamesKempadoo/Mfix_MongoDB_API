@@ -1,4 +1,4 @@
-package com.sparta.academy.mfix_mongodb_api.model.entity;
+package com.sparta.academy.mfix_mongodb_api.entity;
 
 import com.mongodb.lang.Nullable;
 import org.springframework.data.annotation.Id;
