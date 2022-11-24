@@ -112,7 +112,7 @@ public class TheaterDTOTests {
                 response = ConnectionManager.from()
                         .baseURL()
                         .slash("theaters")
-                        .slash("4")
+                        .slash("502")
                         .getResponse();
 
                 dto = response.getBodyAs(TheaterDTO.class);
@@ -219,6 +219,29 @@ public class TheaterDTOTests {
                 assertThat(response.getStatusCode(), is(200));
 
 
+            }
+        }
+
+        @Nested
+        class PATCHTests{
+            @Test
+            @DisplayName("check patch method return 200 status")
+            void checkPatchMethodReturn200Status() {
+                ConnectionResponse response = ConnectionManager.from().baseURL().slash("theaters").slash("953").usingMethod("PATCH").withBody("{\"geo\": {\n" +
+                        "                \"coordinates\": [\n" +
+                        "                    -93.24565,\n" +
+                        "                    44.85466\n" +
+                        "                ],\n" +
+                        "                \"type\": \"Point\"\n" +
+                        "            },\n" +
+                        "            \"address\": {\n" +
+                        "                \"zipcode\": \"55425\",\n" +
+                        "                \"city\": \"Cambridge\",\n" +
+                        "                \"street1\": \"340 W Market\",\n" +
+                        "                \"state\": \"MN\"\n" +
+                        "            }}").getResponse();
+
+                assertThat(response.getStatusCode(), is(200));
             }
         }
     }

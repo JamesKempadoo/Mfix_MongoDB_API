@@ -3,6 +3,7 @@ package com.sparta.academy.mfix_mongodb_api.framework.connection;
 import com.sparta.academy.mfix_mongodb_api.framework.exception.ConnectionManagementException;
 import com.sparta.academy.mfix_mongodb_api.framework.injector.Injector;
 
+import javax.validation.constraints.Null;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -24,7 +25,8 @@ public class ConnectionResponse {
             HttpRequest request = getBuilder(URL, method, body).build();
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
         } catch (IOException | InterruptedException e) {
-            throw new ConnectionManagementException("Request could not be made: " + e.getMessage());
+            throw new ConnectionManagementException("Request could not be made: " + e);
+        } catch (NullPointerException e) {
         }
         this.response = response;
         return this;
