@@ -262,7 +262,7 @@ public class UserDTOTest {
             @DisplayName("Test that status code is 200")
             void TestThatStatusCodeIs200() {
                 ConnectionResponse response = from().baseURL().slash("users").usingMethod("PATCH").withBody("{\n" +
-                        "        \"id\": \"637f7a1bbbc4d1700a2490d3\",\n" +
+                        "        \"id\": \"637f7e20aa06c9364e4d3dcc\",\n" +
                         "        \"password\": \"$2b$12$UREFwsRUoyF0CRqGNK0LzO0HM/jLhgUCNNIJ9RJAqMUQ74crlJ1Vu\",\n" +
                         "        \"name\": \"John Snow\",\n" +
                         "        \"email\": \"johnsnow99@gameofthron.es\"\n" +
@@ -287,7 +287,7 @@ public class UserDTOTest {
             @DisplayName("Check that content type is application/json")
             void checkContentTypeApplicationJSON(){
                 ConnectionResponse response = from().baseURL().slash("users").usingMethod("PATCH").withBody("{\n" +
-                        "        \"id\": \"637f7a1bbbc4d1700a2490d3\",\n" +
+                        "        \"id\": \"637f7e20aa06c9364e4d3dcc \",\n" +
                         "        \"password\": \"$2b$12$UREFwsRUoyF0CRqGNK0LzO0HM/jLhgUCNNIJ9RJAqMUQ74crlJ1Vu\",\n" +
                         "        \"name\": \"John Snow\",\n" +
                         "        \"email\": \"johnsnow100@gameofthron.es\"\n" +
