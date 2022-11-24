@@ -124,6 +124,7 @@ public class ConnectionManagerTests {
 
             Mockito.verify(mockedResponse.constructed().get(0))
                     .makeRequest(passedURL.capture(), passedMethod.capture(), passedBody.capture());
+            mockedResponse.close();
         }
 
         @Test
