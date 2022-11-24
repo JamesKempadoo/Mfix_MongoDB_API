@@ -1,4 +1,4 @@
-package com.sparta.academy.mfix_mongodb_api.framework.framework_test;
+package com.sparta.academy.mfix_mongodb_api;
 
 import com.sparta.academy.mfix_mongodb_api.framework.connection.ConnectionResponse;
 import com.sparta.academy.mfix_mongodb_api.framework.dto.user.UserDTO;
@@ -18,7 +18,7 @@ public class UserDTOTest {
     @BeforeAll
     static void setupAll() {
         collectionResponse = from().baseURL().slash("users").getResponse();
-        response = from().baseURL().slash("users").slash("59b99db4cfa9a34dcd7885b6").getResponse();
+        response = from().baseURL().slash("users").slash("59b99db4cfa9a34dcd7885b7").getResponse();
 
         users = collectionResponse.getBodyAs(UserDTO[].class);
         dto = response.getBodyAs(UserDTO.class);
