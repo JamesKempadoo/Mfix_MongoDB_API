@@ -75,7 +75,7 @@ git clone https://github.com/JamesKempadoo/Mfix_MongoDB_API.git
 ```
 
 # Program Structure
-## restful api strudture
+## Restful API Structure
 
 * **controller**
   * CommentsController
@@ -84,19 +84,11 @@ git clone https://github.com/JamesKempadoo/Mfix_MongoDB_API.git
   * TheaterController
   * UserController
   
-* **entity**
-  * Comment
-  * imdb
-  * Movie
-  * Theater
-  * Tomato
-  * User
-  * Viewer
-  
 * **exceptions**
   * ControllerExceptionHandler
   * NoTheaterFoundException
   * ResourceException
+  * IDNotFoundException
  
 * **logging**
   * CustomConsoleHandler
@@ -108,6 +100,25 @@ git clone https://github.com/JamesKempadoo/Mfix_MongoDB_API.git
   * LoggerSingleton
   * LoggingExample
 
+* **model**
+  * DBConfig
+  * MongoConfig
+  
+* **entity**
+  * Comment
+  * imdb
+  * Movie
+  * Theater
+  * Tomato
+  * User
+  * Viewer
+
+* **theater**
+  * Address
+  * Geo
+  * Location
+  * Theater
+  
 * **repositories**
   * CommentRepository
   * MovieRepository
@@ -119,14 +130,30 @@ git clone https://github.com/JamesKempadoo/Mfix_MongoDB_API.git
     * Connection Response
   
 * **Cucumber**
-  * CommentSttepdefs
+  * CommentStepdefs
   * MovieStepdefs
   * TestRunner
   * TheatreStepdefs
   * UserStepdefs
 
 * **dto**
+* **comments**
+  * CommentsDTO 
+
+* **movie**
+  * imdb
+  * MovieDTO
+  * Tomatoes
+  * Viewer
+
+* **theater**
+  * Address
+  * Geo
+  * Location
   * TheaterDTO
+
+* **User**
+  * UserDTO
 
 * **Exceptions**
   * ConnectionManagementException
@@ -135,6 +162,11 @@ git clone https://github.com/JamesKempadoo/Mfix_MongoDB_API.git
 * **framework_test**
   * FrameworkTest
   * TheaterDTOTest
+  * MovieDTOTest
+  * UserDTOTest
+
+* **controller_test**
+  * UserControllerTest 
 
 * **injection**
   * Injector
