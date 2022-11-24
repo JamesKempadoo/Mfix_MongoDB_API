@@ -1,11 +1,11 @@
-package com.sparta.academy.mfix_mongodb_api.entity.theater;
+package com.sparta.academy.mfix_mongodb_api.model.entity.theater;
 
 import nonapi.io.github.classgraph.json.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
 @Document(collection = "theaters")
-public class TheaterDTO {
+public class Theater {
 
 
     @Field
