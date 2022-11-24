@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JacksonException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sparta.academy.mfix_mongodb_api.framework.connection.ConnectionManager;
 import com.sparta.academy.mfix_mongodb_api.framework.connection.ConnectionResponse;
-import com.sparta.academy.mfix_mongodb_api.framework.dto.CommentDTO;
+import com.sparta.academy.mfix_mongodb_api.framework.dto.comments.CommentDTO;
 import com.sparta.academy.mfix_mongodb_api.framework.exception.ConnectionManagementException;
 import com.sparta.academy.mfix_mongodb_api.framework.injector.Injector;
 import org.junit.jupiter.api.*;

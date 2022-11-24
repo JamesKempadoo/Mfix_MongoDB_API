@@ -93,7 +93,7 @@ public class ConnectionManagerTests {
     }
 
     @Mock(serializable = true)
-    private static final User user = Mockito.mock(User.class );
+    private static final User user = Mockito.mock(User.class);
 
     private static Stream<String> getValidJSON() throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();

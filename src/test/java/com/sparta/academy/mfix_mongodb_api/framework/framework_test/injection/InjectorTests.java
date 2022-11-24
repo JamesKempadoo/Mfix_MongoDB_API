@@ -2,8 +2,7 @@ package com.sparta.academy.mfix_mongodb_api.framework.framework_test.injection;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sparta.academy.mfix_mongodb_api.framework.dto.CommentDTO;
-import com.sparta.academy.mfix_mongodb_api.framework.exception.ConnectionManagementException;
+import com.sparta.academy.mfix_mongodb_api.framework.dto.comments.CommentDTO;
 import com.sparta.academy.mfix_mongodb_api.framework.exception.InjectorException;
 import com.sparta.academy.mfix_mongodb_api.framework.injector.Injector;
 import org.junit.jupiter.api.DisplayName;
