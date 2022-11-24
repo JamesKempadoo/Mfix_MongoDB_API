@@ -171,8 +171,16 @@ public class UserFrameworkTest {
                 ConnectionResponse response = from().baseURL().slash("users").slash("59b99db6cfa9a34dcd7885bb").usingMethod("DELETE").getResponse();
                 Assertions.assertEquals(200, response.getStatusCode());
             }
-
         }
+
+        @Test
+        @Transactional
+        @DisplayName("Test that status code is 200")
+        void TestThatStatusCodeIs200() {
+            ConnectionResponse response = from().baseURL().slash("users").slash("59b99db6cfa9a34dcd7885bb").usingMethod("DELETE").getResponse();
+            Assertions.assertEquals(200, response.getStatusCode());
+        }
+    }
 
         @Nested
         @Transactional
