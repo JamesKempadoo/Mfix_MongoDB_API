@@ -3,6 +3,7 @@ package com.sparta.academy.mfix_mongodb_api.framework.connection;
 import com.sparta.academy.mfix_mongodb_api.framework.exception.ConnectionManagementException;
 import com.sparta.academy.mfix_mongodb_api.framework.injector.Injector;
 
+import javax.validation.constraints.Null;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -17,22 +18,41 @@ public class ConnectionResponse {
     ConnectionResponse() {
     }
 
-    public ConnectionResponse makeRequest(String URL) throws ConnectionManagementException {
+    public ConnectionResponse makeRequest(String URL, String method, String body) throws ConnectionManagementException {
         HttpResponse<String> response = null;
         try {
             HttpClient client = HttpClient.newHttpClient();
-            HttpRequest request = HttpRequest
-                    .newBuilder()
-                    .uri(new URI(URL))
-                    .build();
+            HttpRequest request = getBuilder(URL, method, body).build();
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        } catch (URISyntaxException | IllegalArgumentException e) {
-            throw new ConnectionManagementException("Given URL, " + URL + ", is not a valid URL");
         } catch (IOException | InterruptedException e) {
-            throw new ConnectionManagementException("Request could not be made: " + e.getMessage());
+            throw new ConnectionManagementException("Request could not be made: " + e);
+        } catch (NullPointerException e) {
         }
         this.response = response;
         return this;
+    }
+
+    private HttpRequest.Builder getBuilder(String URL, String method, String body) throws ConnectionManagementException {
+        try {
+            HttpRequest.BodyPublisher publisher = HttpRequest.BodyPublishers.ofString(body);
+            HttpRequest.Builder builder = HttpRequest
+                    .newBuilder()
+                    .uri(new URI(URL))
+                    .header("Content-Type", "application/json");
+
+            switch (method) {
+                case "GET" -> builder = builder.GET();
+                case "PUT" -> builder = builder.PUT(publisher);
+                case "POST" -> builder = builder.POST(publisher);
+                case "DELETE" -> builder = builder.DELETE();
+                case "PATCH" -> builder = builder.method("PATCH", publisher);
+                default -> throw new ConnectionManagementException("Method " + method + " not supported");
+            }
+
+            return builder;
+        } catch (URISyntaxException | IllegalArgumentException e) {
+            throw new ConnectionManagementException("Given URL, " + URL + ", is not a valid URL");
+        }
     }
 
     public ConnectionResponse and() {

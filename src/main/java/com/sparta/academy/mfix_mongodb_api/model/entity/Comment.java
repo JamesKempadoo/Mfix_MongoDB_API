@@ -1,11 +1,10 @@
-package com.sparta.academy.mfix_mongodb_api.entity;
+package com.sparta.academy.mfix_mongodb_api.model.entity;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 import org.springframework.data.mongodb.core.mapping.FieldType;
 
-import java.time.LocalDateTime;
 
 @Document( collection = "comments")
 public class Comment {
@@ -16,8 +15,8 @@ public class Comment {
     @Field
     public String name;
 
-    @Field
-    public LocalDateTime date;
+    @Field(targetType = FieldType.DATE_TIME)
+    public String date;
 
     @Field
     public String email;
@@ -28,13 +27,12 @@ public class Comment {
     @Field
     public String text;
 
-    public Comment(String id, String name, LocalDateTime date, String email, String movieId, String text) {
-        this.id = id;
+    public Comment(String date, String name, String email, String movieId, String text) {
         this.name = name;
-        this.date = date;
         this.email = email;
         this.movieId = movieId;
         this.text = text;
+        this.date = date;
     }
 
     public String getId() {
@@ -45,10 +43,11 @@ public class Comment {
         this.id = id;
     }
 
-    public LocalDateTime getDate() {
+    public String getDate() {
         return date;
     }
-    public void setDate(LocalDateTime date) {
+
+    public void setDate(String date) {
         this.date = date;
     }
 
@@ -60,11 +59,11 @@ public class Comment {
         this.email = email;
     }
 
-    public String getMovie_id() {
+    public String getMovieId() {
         return movieId;
     }
 
-    public void setMovie_id(String movieId) {
+    public void setMovieId(String movieId) {
         this.movieId = movieId;
     }
 
@@ -87,11 +86,11 @@ public class Comment {
     @Override
     public String toString() {
         return "Comment{" +
-                "_id=" + id +
+                "id=" + id +
                 ", date='" + date + '\'' +
                 ", email='" + email + '\'' +
-                ", movie_id=" + movieId +
-                ", text_id='" + text + '\'' +
+                ", movieId=" + movieId +
+                ", text='" + text + '\'' +
                 ", name='" + name + '\'' +
                 '}';
     }

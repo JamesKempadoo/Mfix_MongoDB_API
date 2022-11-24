@@ -11,7 +11,7 @@ Feature: Testing scenarios for theatre endpoint
   @scenarioSingleTheatreGet
   Scenario: Getting a single theatre data
     When I issue a get request for a single theatre by theatreID
-    Then It should return the post and comments for that specific theatre
+    Then It should return the data of the specified theater
 
   @scenarioDeleteTheatre
   Scenario: Deleting a single theatre

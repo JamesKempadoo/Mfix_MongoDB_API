@@ -4,6 +4,7 @@ Riya,
 Max,
 Justin,
 Abdulhadi,
+Fransico,
 Calum,
 Gurjeev,
 Igran,
@@ -32,7 +33,8 @@ Mohamed.**
 
 ## About Project
 
-This project is developed as a team of 18, building a restful API connected to a mongo database that allows for CRUD operations requested by the user. The structure of the 
+
+This  updatedreadmeproject is developed as a team of 18, building a restful API connected to a mongo database that allows for CRUD operations requested by the user. The structure of the 
 rest API uses MVC model and Swagger is used to display the API endpoint requests.
 Also creating a testing framework structure (Service Object Model), using Jackson,
 BDD Development and Cucumber, Rest-Assured, implementing JUnit and Hamcrest Tests, as well as using mocking to test the framework. We also
@@ -40,6 +42,9 @@ made use of a singleton logger to log the classes.
 
 The project's functionality is using a MongoDB and cloud-based solution for accessing information about movies,
 allowing users to post or read comments on movies and managing a film schedule for cinemas. Also building a testing framework to test the MongoDB API for testers to use.
+
+
+
 
 ### <span style="color: blue;">**Built With**</span>
 
