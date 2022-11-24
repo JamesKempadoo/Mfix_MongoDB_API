@@ -23,6 +23,7 @@ public class UserDTOTest {
         users = collectionResponse.getBodyAs(UserDTO[].class);
         dto = response.getBodyAs(UserDTO.class);
     }
+
     @AfterAll
     static void refreshDB() {
         from().baseURL().slash("users").usingMethod("POST").withBody("{\n" +
@@ -240,7 +241,7 @@ public class UserDTOTest {
                         "        \"id\": \"637fa19ece2de22322396540\",\n" +
                         "        \"password\": \"$2b$12$UREFwsRUoyF0CRqGNK0LzO0HM/jLhgUCNNIJ9RJAqMUQ74crlJ1Vu\",\n" +
                         "        \"name\": \"John Snow1\",\n" +
-                        "        \"email\": \"johnsnow1@gameofthron.es\"\n" +
+                        "        \"email\": \"johnsndsfow1@gameofthron.es\"\n" +
                         "}").getResponse();
                 Assertions.assertEquals(200, response.getStatusCode());
             }
