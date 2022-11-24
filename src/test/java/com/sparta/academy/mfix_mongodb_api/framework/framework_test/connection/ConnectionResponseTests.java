@@ -61,14 +61,20 @@ public class ConnectionResponseTests {
     class TestHTTPMethods {
 
         private static final HttpRequest.Builder mockBuilder = Mockito.mock(HttpRequest.Builder.class);
+        private static MockedStatic<HttpRequest> mockRequest;
 
         @BeforeAll
         static void setupAll() throws URISyntaxException {
-            MockedStatic<HttpRequest> mockRequest = Mockito.mockStatic(HttpRequest.class);
+            mockRequest = Mockito.mockStatic(HttpRequest.class);
             mockRequest.when(HttpRequest::newBuilder).thenReturn(mockBuilder);
             Mockito.when(mockBuilder.uri(new URI(ConnectionManager.BASE_URL))).thenReturn(mockBuilder);
             Mockito.when(mockBuilder.header("Content-Type", "application/json"))
                     .thenReturn(mockBuilder);
+        }
+
+        @AfterAll
+        static void teardownAll() {
+            mockRequest.close();
         }
 
         @Test
@@ -111,7 +117,7 @@ public class ConnectionResponseTests {
     @Nested
     class TestBody {
 
-        private MockedStatic<Injector> injector;
+        private static MockedStatic<Injector> injector;
         private ArgumentCaptor<String> passedString;
         private ArgumentCaptor<Class> passedClass;
         private CommentDTO mockDTO;
@@ -125,10 +131,9 @@ public class ConnectionResponseTests {
         }
 
         @AfterEach
-        void breakdown() {
+        void teardownAll() {
             injector.close();
         }
-
 
         @Test
         @DisplayName("Test that when a body is requested the correct JSON is passed to injector")
