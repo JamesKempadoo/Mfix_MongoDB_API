@@ -20,14 +20,14 @@ public class UserFrameworkTest {
     @BeforeAll
     static void setupAll() {
         collectionResponse = from().baseURL().slash("users").getResponse();
-        response = from().baseURL().slash("users").slash("59b99db6cfa9a34dcd7885bb").getResponse();
+        response = from().baseURL().slash("users").slash("59b99db4cfa9a34dcd7885b6").getResponse();
 
         users = collectionResponse.getBodyAs(UserDTO[].class);
         dto = response.getBodyAs(UserDTO.class);
     }
 
     @Nested
-    @DisplayName("GET, all Users Tests")
+    @DisplayName("All Users Tests")
     class UserArrayTests {
 
         @Nested
@@ -183,18 +183,15 @@ public class UserFrameworkTest {
     }
 
         @Nested
-        @Transactional
-        @DisplayName("DELETE, User tests")
-        class Response {
-
+        @DisplayName("Response Header Tests")
+        class ResponseHeaderTests {
+            @Test
+            @DisplayName("Check that content type is application/json")
+            void checkContentTypeApplicationJSON(){
+                Assertions.assertEquals("application/json", response.getHeader("Content-Type"));
+            }
         }
 
-        @Test
-        @Transactional
-        @DisplayName("Test that user is deleted")
-        void TestThatUserIsDeleted() {
-
-        }
     }
 
 }
