@@ -11,7 +11,7 @@ public class Injector {
         try {
             return mapper.readValue(json, c);
         } catch (JsonProcessingException e) {
-            throw new InjectorException("Given JSON is invalid, " + json);
+            throw new InjectorException("Could not map given JSON to DTO. " + json + "\n" + e);
         }
     }
 }
