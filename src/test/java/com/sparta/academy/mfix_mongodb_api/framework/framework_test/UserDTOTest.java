@@ -23,6 +23,33 @@ public class UserDTOTest {
         users = collectionResponse.getBodyAs(UserDTO[].class);
         dto = response.getBodyAs(UserDTO.class);
     }
+    @AfterAll
+    static void refreshDB() {
+        from().baseURL().slash("users").usingMethod("POST").withBody("{\n" +
+                "        \"id\": \"59b99db4cfa9a34dcd7885b6\",\n" +
+                "        \"password\": \"$2b$12$UREFwsRUoyF0CRqGNK0LzO0HM/jLhgUCNNIJ9RJAqMUQ74crlJ1Vu\",\n" +
+                "        \"name\": \"Ned Stark\",\n" +
+                "        \"email\": \"sean_bean@gameofthron.es\"\n" +
+                "}").getResponse();
+
+        from().baseURL().slash("users").usingMethod("POST").withBody("{\n" +
+                "    \"id\": \"59b99db6cfa9a34dcd7885bb\",\n" +
+                "    \"password\": \"$2b$12$NzpbWHdMytemLtTfFKduHenr2NZ.rvxIKuYM4AWLTFaUShxbJ.G3q\",\n" +
+                "    \"name\": \"Daenerys Targaryen\",\n" +
+                "    \"email\": \"emilia_clarke@gameofthron.es\"\n" +
+                "}").getResponse();
+
+        from().baseURL().slash("users").usingMethod("PATCH").withBody("{\n" +
+                "        \"id\": \"5db1c37e4a68c31f10cf0a9f\",\n" +
+                "        \"password\": \"foobar\",\n" +
+                "        \"name\": \"foo\",\n" +
+                "        \"email\": \"foobaz@bar.com\"\n" +
+                "}").getResponse();
+
+        from().baseURL().slash("users").slash("637fa19ece2de22322396540").usingMethod("DELETE").getResponse();
+        from().baseURL().slash("users").slash("637fa19ece2de22322396541").usingMethod("DELETE").getResponse();
+
+    }
 
     @Nested
     @DisplayName("All Users Tests")
@@ -205,14 +232,14 @@ public class UserDTOTest {
         @Nested
         @DisplayName("POST, Status Code Tests")
         class StatusCodeTests {
-
             @Test
             @Transactional
             @DisplayName("Test that status code is 200")
             void TestThatStatusCodeIs200() {
                 ConnectionResponse response = from().baseURL().slash("users").usingMethod("POST").withBody("{\n" +
+                        "        \"id\": \"637fa19ece2de22322396540\",\n" +
                         "        \"password\": \"$2b$12$UREFwsRUoyF0CRqGNK0LzO0HM/jLhgUCNNIJ9RJAqMUQ74crlJ1Vu\",\n" +
-                        "        \"name\": \"John Snow\",\n" +
+                        "        \"name\": \"John Snow1\",\n" +
                         "        \"email\": \"johnsnow1@gameofthron.es\"\n" +
                         "}").getResponse();
                 Assertions.assertEquals(200, response.getStatusCode());
@@ -235,8 +262,9 @@ public class UserDTOTest {
             @DisplayName("Check that content type is application/json")
             void checkContentTypeApplicationJSON(){
                 ConnectionResponse response = from().baseURL().slash("users").usingMethod("POST").withBody("{\n" +
+                        "        \"id\": \"637fa19ece2de22322396541\",\n" +
                         "        \"password\": \"$2b$12$UREFwsRUoyF0CRqGNK0LzO0HM/jLhgUCNNIJ9RJAqMUQ74crlJ1Vu\",\n" +
-                        "        \"name\": \"John Snow\",\n" +
+                        "        \"name\": \"John Snow2\",\n" +
                         "        \"email\": \"johnsnow2@gameofthron.es\"\n" +
                         "}").getResponse();
                 Assertions.assertEquals("application/json", response.getHeader("Content-Type"));
@@ -262,10 +290,10 @@ public class UserDTOTest {
             @DisplayName("Test that status code is 200")
             void TestThatStatusCodeIs200() {
                 ConnectionResponse response = from().baseURL().slash("users").usingMethod("PATCH").withBody("{\n" +
-                        "        \"id\": \"637f7e20aa06c9364e4d3dcc\",\n" +
-                        "        \"password\": \"$2b$12$UREFwsRUoyF0CRqGNK0LzO0HM/jLhgUCNNIJ9RJAqMUQ74crlJ1Vu\",\n" +
-                        "        \"name\": \"John Snow\",\n" +
-                        "        \"email\": \"johnsnow99@gameofthron.es\"\n" +
+                        "        \"id\": \"5db1c37e4a68c31f10cf0a9f\",\n" +
+                        "        \"password\": \"foobar\",\n" +
+                        "        \"name\": \"foobar\",\n" +
+                        "        \"email\": \"foobaz@bar.com\"\n" +
                         "}").getResponse();
                 Assertions.assertEquals(200, response.getStatusCode());
             }
@@ -287,10 +315,10 @@ public class UserDTOTest {
             @DisplayName("Check that content type is application/json")
             void checkContentTypeApplicationJSON(){
                 ConnectionResponse response = from().baseURL().slash("users").usingMethod("PATCH").withBody("{\n" +
-                        "        \"id\": \"637f7e20aa06c9364e4d3dcc \",\n" +
-                        "        \"password\": \"$2b$12$UREFwsRUoyF0CRqGNK0LzO0HM/jLhgUCNNIJ9RJAqMUQ74crlJ1Vu\",\n" +
-                        "        \"name\": \"John Snow\",\n" +
-                        "        \"email\": \"johnsnow100@gameofthron.es\"\n" +
+                        "        \"id\": \"5db1c37e4a68c31f10cf0a9f\",\n" +
+                        "        \"password\": \"foobar\",\n" +
+                        "        \"name\": \"foofoo\",\n" +
+                        "        \"email\": \"foobaz@bar.com\"\n" +
                         "}").getResponse();
                 Assertions.assertEquals("application/json", response.getHeader("Content-Type"));
             }
