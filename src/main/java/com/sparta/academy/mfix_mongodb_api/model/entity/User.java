@@ -1,4 +1,4 @@
-package com.sparta.academy.mfix_mongodb_api.entity;
+package com.sparta.academy.mfix_mongodb_api.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
