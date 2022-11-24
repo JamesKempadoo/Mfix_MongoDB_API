@@ -243,7 +243,7 @@ public class MovieDTOTests {
             @Test
             @DisplayName("Check That cast of Mflix is empty")
             void checkThatCastIsEmpty() {
-                Assertions.assertFalse(dto.isTomatoesNull());
+                Assertions.assertFalse(dto.isCastEmpty());
             }
 
             @Test
