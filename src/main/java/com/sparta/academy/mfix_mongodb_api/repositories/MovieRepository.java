@@ -1,6 +1,6 @@
 package com.sparta.academy.mfix_mongodb_api.repositories;
 
-import com.sparta.academy.mfix_mongodb_api.entity.Movie;
+import com.sparta.academy.mfix_mongodb_api.model.entity.Movie;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.util.List;
