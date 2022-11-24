@@ -50,22 +50,24 @@ public class CommentsController {
 
     @GetMapping("/comments/name/{name}")
     public ResponseEntity<List<Comment>> getCommentsByName(@PathVariable String name) {
-        List<Comment> listOfNames = new ArrayList<>();
-        for (Comment comment : commentRepository.findAll()){
-            if (comment.name != null && comment.name.contains(name)){
-                    listOfNames.add(comment);
-            }
+        if (commentRepository.findCommentByNameContaining(name).isEmpty()
+                &&commentRepository.findCommentByNameContaining(name)==null){
+            return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
         }
-        if (listOfNames.isEmpty()){
-            return new ResponseEntity<>(listOfNames,HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(commentRepository.findCommentByNameContaining(name),HttpStatus.OK);
+    }
+    @GetMapping("/comments/name/")
+    public ResponseEntity<List<Comment>> getCommentsByNameBody(@RequestBody String name) {
+        if (commentRepository.findCommentByNameContaining(name).isEmpty()
+                &&commentRepository.findCommentByNameContaining(name)==null){
+            return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<>(listOfNames,HttpStatus.OK);
+        return new ResponseEntity<>(commentRepository.findCommentByNameContaining(name),HttpStatus.OK);
     }
 
+
     @GetMapping("/comments/date/{date}")
-    public ResponseEntity<List<Comment>> getCommentsByDateYear( @PathVariable String date ){
-        HttpStatus status = HttpStatus.OK;
-        String body = "Bad request: Not a date";
+    public ResponseEntity<List<Comment>> getCommentsByDateYear(@PathVariable String date){
         List<Comment> listOfComments = new ArrayList<>();
         if (date==null){
             return new ResponseEntity<>(listOfComments, HttpStatus.BAD_REQUEST);
@@ -82,30 +84,19 @@ public class CommentsController {
                 return new ResponseEntity<>(listOfComments, HttpStatus.BAD_REQUEST);
             }
         }
-
-        for (Comment comment : commentRepository.findAll()){
-
-            try {
-                LocalDateTime localDateTime = LocalDateTime.parse(comment.getDate().replace(" ", "-"), format);
-
-            if (YMDN.size()!=0
-                    && localDateTime.getYear() == YMDN.get(0)){
-                if (YMDN.size()==1){
-                    listOfComments.add(comment);
-                } else if (localDateTime.getMonthValue() == YMDN.get(1)){
-                    if (YMDN.size()==2
-                        ||localDateTime.getDayOfMonth() == YMDN.get(2)){
-                        listOfComments.add(comment);
-                    }
-                }
-            }
-            } catch ( DateTimeParseException ignored){
-
-            }
-
+        LocalDateTime dateTime;
+        if (YMDN.size()==1){
+            dateTime = LocalDateTime.of(YMDN.get(0),1,1,0,0);
+            return new ResponseEntity<>(commentRepository.findCommentByDateBetween(dateTime,dateTime.plusYears(1)),HttpStatus.OK);
+        } else if (YMDN.size()==2) {
+            dateTime = LocalDateTime.of(YMDN.get(0),YMDN.get(1),1,0,0);
+            return new ResponseEntity<>(commentRepository.findCommentByDateBetween(dateTime,dateTime.plusMonths(1)),HttpStatus.OK);
+        } else {
+            dateTime = LocalDateTime.of(YMDN.get(0),YMDN.get(1),YMDN.get(2),0,0);
+            return new ResponseEntity<>(commentRepository.findCommentByDateBetween(dateTime,dateTime.plusDays(1)),HttpStatus.OK);
         }
-        return new ResponseEntity<>(listOfComments, status);
     }
+
 
     @GetMapping("/comments/movie/{id}")
     public ResponseEntity<List<Comment>> getCommentsByMovie(@PathVariable String id) {
@@ -120,47 +111,37 @@ public class CommentsController {
 
     @GetMapping("/comments/email/{email}")
     public ResponseEntity<List<Comment>> getEmailsByEmail(@PathVariable String email) {
-        List<Comment> listOfEmails = new ArrayList<>();
-        for (Comment comment : commentRepository.findAll()){
-            if (comment.email.equals(email)){
-                listOfEmails.add(comment);
-            }
+        if (commentRepository.findCommentByEmail(email).isEmpty()){
+            return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
         }
-
-        if (listOfEmails.isEmpty()){
-            return new ResponseEntity<>(listOfEmails,HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<>(listOfEmails,HttpStatus.OK);
+        return new ResponseEntity<>(commentRepository.findCommentByEmail(email),HttpStatus.OK);
     }
+    @GetMapping("/comments/email/")
+    public ResponseEntity<List<Comment>> getEmailsByEmailBody(@RequestBody String email) {
+        if (commentRepository.findCommentByEmail(email).isEmpty()){
+            return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(commentRepository.findCommentByEmail(email),HttpStatus.OK);
+    }
+
+
 
     @GetMapping("/comments/text/{text}")
     public ResponseEntity<List<Comment>> getCommentsByText(@PathVariable String text) {
-        List<Comment> listOfText = new ArrayList<>();
-        for (Comment comment : commentRepository.findAll()){
-            if (comment.text.contains(text.toLowerCase())){
-                listOfText.add(comment);
-            }
+        if (commentRepository.findCommentByTextContaining(text).isEmpty()){
+            return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
         }
-        if (listOfText.isEmpty()){
-            return new ResponseEntity<>(listOfText,HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<>(listOfText,HttpStatus.OK);
+        return new ResponseEntity<>(commentRepository.findCommentByTextContaining(text),HttpStatus.OK);
 
     }
 
     //Request body with just the words you wanted to input e.g. Minima odit
     @GetMapping("/comments/text/")
     public ResponseEntity<List<Comment>> getCommentsByTextBody(@RequestBody String text) {
-        List<Comment> listOfText = new ArrayList<>();
-        for (Comment comment : commentRepository.findAll()){
-            if (comment.text.contains(text)){
-                listOfText.add(comment);
-            }
+        if (commentRepository.findCommentByTextContaining(text).isEmpty()){
+            return new ResponseEntity<>(commentRepository.findCommentByTextContaining(text),HttpStatus.NOT_FOUND);
         }
-        if (listOfText.isEmpty()){
-            return new ResponseEntity<>(listOfText,HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<>(listOfText,HttpStatus.OK);
+        return new ResponseEntity<>(commentRepository.findCommentByTextContaining(text),HttpStatus.OK);
     }
 
     //PUT
