@@ -1,6 +1,6 @@
 package com.sparta.academy.mfix_mongodb_api.controller;
 
-import com.sparta.academy.mfix_mongodb_api.entity.User;
+import com.sparta.academy.mfix_mongodb_api.model.entity.User;
 import com.sparta.academy.mfix_mongodb_api.exceptions.IDNotFoundException;
 import com.sparta.academy.mfix_mongodb_api.logging.LoggerSingleton;
 import com.sparta.academy.mfix_mongodb_api.repositories.UserRepository;
