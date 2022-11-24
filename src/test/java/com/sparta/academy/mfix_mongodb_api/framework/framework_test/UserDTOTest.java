@@ -1,15 +1,14 @@
 package com.sparta.academy.mfix_mongodb_api.framework.framework_test;
 
 import com.sparta.academy.mfix_mongodb_api.framework.connection.ConnectionResponse;
-import com.sparta.academy.mfix_mongodb_api.framework.dto.UserDTO;
+import com.sparta.academy.mfix_mongodb_api.framework.dto.user.UserDTO;
 import org.junit.jupiter.api.*;
 import org.springframework.transaction.annotation.Transactional;
 import static com.sparta.academy.mfix_mongodb_api.framework.connection.ConnectionManager.*;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-public class UserFrameworkTest {
+public class UserDTOTest {
 
     private static UserDTO[] users;
     private static UserDTO dto;

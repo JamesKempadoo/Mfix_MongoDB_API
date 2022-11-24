@@ -2,23 +2,22 @@ package com.sparta.academy.mfix_mongodb_api.controller;
 
 import com.sparta.academy.mfix_mongodb_api.model.entity.User;
 import com.sparta.academy.mfix_mongodb_api.exceptions.IDNotFoundException;
-import com.sparta.academy.mfix_mongodb_api.logging.LoggerSingleton;
 import com.sparta.academy.mfix_mongodb_api.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.logging.Logger;
 
+@Controller
 @RestController
 public class UserController {
 
     private UserRepository userRepository;
-    private Logger logger = LoggerSingleton.getSingleton().getLogger();
-
     @Autowired
     public UserController(UserRepository userRepository) {
         this.userRepository = userRepository;
@@ -54,5 +53,4 @@ public class UserController {
     public User updateUser(@RequestBody User user) {
         return userRepository.save(user);
     }
-
 }

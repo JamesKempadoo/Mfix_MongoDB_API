@@ -4,7 +4,6 @@ import com.sparta.academy.mfix_mongodb_api.model.entity.Comment;
 import com.sparta.academy.mfix_mongodb_api.repositories.CommentRepository;
 import com.sparta.academy.mfix_mongodb_api.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

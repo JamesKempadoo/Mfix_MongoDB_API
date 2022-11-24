@@ -23,7 +23,6 @@ public class ConnectionResponse {
             HttpClient client = HttpClient.newHttpClient();
             HttpRequest request = getBuilder(URL, method, body).build();
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
-
         } catch (IOException | InterruptedException e) {
             throw new ConnectionManagementException("Request could not be made: " + e.getMessage());
         }
