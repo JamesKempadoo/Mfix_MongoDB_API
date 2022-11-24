@@ -84,6 +84,7 @@ public class TheaterController {
         System.out.println(location.toString());
         if(theater != null){
             theater.setLocation(location);
+            theaterRepository.deleteTheaterDTOByTheaterId(id);
             theaterRepository.save(theater);
         } else {
             throw new NoTheaterFoundException();
