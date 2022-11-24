@@ -4,7 +4,6 @@ import com.sparta.academy.mfix_mongodb_api.framework.connection.ConnectionRespon
 import com.sparta.academy.mfix_mongodb_api.framework.dto.UserDTO;
 import org.junit.jupiter.api.*;
 import org.springframework.transaction.annotation.Transactional;
-
 import static com.sparta.academy.mfix_mongodb_api.framework.connection.ConnectionManager.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
@@ -156,9 +155,10 @@ public class UserFrameworkTest {
     class UserDeleteTests {
 
         // WHEN a user is deleted THEN the http status response is 200 SO THAT the requester knows that the call succeeded
+        // WHEN a user that does not exist is deleted THEN the http status response is 400 and the response body should be a json error telling the user that the user does not exist SO THAT the caller is aware of the user not existing
+
         // WHEN a user is deleted THEN getting a list of users with the same id should return an empty collection SO THAT the users data is ensured to have been removed
 
-        // WHEN a user that does not exist is deleted THEN the http status response is 400 and the response body should be a json error telling the user that the user does not exist SO THAT the caller is aware of the user not existing
 
         @Nested
         @DisplayName("DELETE, Status Code Tests")
@@ -171,27 +171,136 @@ public class UserFrameworkTest {
                 ConnectionResponse response = from().baseURL().slash("users").slash("59b99db6cfa9a34dcd7885bb").usingMethod("DELETE").getResponse();
                 Assertions.assertEquals(200, response.getStatusCode());
             }
-        }
 
-        @Test
-        @Transactional
-        @DisplayName("Test that status code is 200")
-        void TestThatStatusCodeIs200() {
-            ConnectionResponse response = from().baseURL().slash("users").slash("59b99db6cfa9a34dcd7885bb").usingMethod("DELETE").getResponse();
-            Assertions.assertEquals(200, response.getStatusCode());
+            @Test
+            @Transactional
+            @DisplayName("Test that status code is 400")
+            void TestThatStatusCodeIs400() {
+                ConnectionResponse response = from().baseURL().slash("users").slash("59b99db6cfa9a34dcd7885bbafdg").usingMethod("DELETE").getResponse();
+                Assertions.assertEquals(400, response.getStatusCode());
+            }
         }
-    }
 
         @Nested
         @DisplayName("Response Header Tests")
         class ResponseHeaderTests {
             @Test
+            @Transactional
+            @DisplayName("Check that content type is text/plain;charset=UTF-8")
+            void checkContentTypeApplicationJSON(){
+                ConnectionResponse response = from().baseURL().slash("users").slash("59b99db4cfa9a34dcd7885b6").usingMethod("DELETE").getResponse();
+                Assertions.assertEquals("text/plain;charset=UTF-8", response.getHeader("Content-Type"));
+            }
+        }
+
+        @Nested
+        @DisplayName("Response Tests")
+        class ResponseTests {
+
+        }
+    }
+
+    @Nested
+    @DisplayName("POST, User tests")
+    class UserPostTests {
+        @Nested
+        @DisplayName("POST, Status Code Tests")
+        class StatusCodeTests {
+
+            @Test
+            @Transactional
+            @DisplayName("Test that status code is 200")
+            void TestThatStatusCodeIs200() {
+                ConnectionResponse response = from().baseURL().slash("users").usingMethod("POST").withBody("{\n" +
+                        "        \"password\": \"$2b$12$UREFwsRUoyF0CRqGNK0LzO0HM/jLhgUCNNIJ9RJAqMUQ74crlJ1Vu\",\n" +
+                        "        \"name\": \"John Snow\",\n" +
+                        "        \"email\": \"johnsnow1@gameofthron.es\"\n" +
+                        "}").getResponse();
+                Assertions.assertEquals(200, response.getStatusCode());
+            }
+
+            @Test
+            @Transactional
+            @DisplayName("Test that status code is 400")
+            void TestThatStatusCodeIs400() {
+                ConnectionResponse response = from().baseURL().slash("users").usingMethod("POST").getResponse();
+                Assertions.assertEquals(400, response.getStatusCode());
+            }
+        }
+
+        @Nested
+        @DisplayName("Response Header Tests")
+        class ResponseHeaderTests {
+            @Test
+            @Transactional
             @DisplayName("Check that content type is application/json")
             void checkContentTypeApplicationJSON(){
+                ConnectionResponse response = from().baseURL().slash("users").usingMethod("POST").withBody("{\n" +
+                        "        \"password\": \"$2b$12$UREFwsRUoyF0CRqGNK0LzO0HM/jLhgUCNNIJ9RJAqMUQ74crlJ1Vu\",\n" +
+                        "        \"name\": \"John Snow\",\n" +
+                        "        \"email\": \"johnsnow2@gameofthron.es\"\n" +
+                        "}").getResponse();
                 Assertions.assertEquals("application/json", response.getHeader("Content-Type"));
             }
         }
 
+        @Nested
+        @DisplayName("Response Tests")
+        class ResponseTests {
+
+        }
     }
 
+
+    @Nested
+    @DisplayName("PATCH, User tests")
+    class UserPatchTests {
+        @Nested
+        @DisplayName("PATCH, Status Code Tests")
+        class StatusCodeTests {
+            @Test
+            @Transactional
+            @DisplayName("Test that status code is 200")
+            void TestThatStatusCodeIs200() {
+                ConnectionResponse response = from().baseURL().slash("users").usingMethod("PATCH").withBody("{\n" +
+                        "        \"id\": \"637f7a1bbbc4d1700a2490d3\",\n" +
+                        "        \"password\": \"$2b$12$UREFwsRUoyF0CRqGNK0LzO0HM/jLhgUCNNIJ9RJAqMUQ74crlJ1Vu\",\n" +
+                        "        \"name\": \"John Snow\",\n" +
+                        "        \"email\": \"johnsnow99@gameofthron.es\"\n" +
+                        "}").getResponse();
+                Assertions.assertEquals(200, response.getStatusCode());
+            }
+
+            @Test
+            @Transactional
+            @DisplayName("Test that status code is 400")
+            void TestThatStatusCodeIs400() {
+                ConnectionResponse response = from().baseURL().slash("users").usingMethod("PATCH").getResponse();
+                Assertions.assertEquals(400, response.getStatusCode());
+            }
+        }
+
+        @Nested
+        @DisplayName("Response Header Tests")
+        class ResponseHeaderTests {
+            @Test
+            @Transactional
+            @DisplayName("Check that content type is application/json")
+            void checkContentTypeApplicationJSON(){
+                ConnectionResponse response = from().baseURL().slash("users").usingMethod("PATCH").withBody("{\n" +
+                        "        \"id\": \"637f7a1bbbc4d1700a2490d3\",\n" +
+                        "        \"password\": \"$2b$12$UREFwsRUoyF0CRqGNK0LzO0HM/jLhgUCNNIJ9RJAqMUQ74crlJ1Vu\",\n" +
+                        "        \"name\": \"John Snow\",\n" +
+                        "        \"email\": \"johnsnow100@gameofthron.es\"\n" +
+                        "}").getResponse();
+                Assertions.assertEquals("application/json", response.getHeader("Content-Type"));
+            }
+        }
+
+        @Nested
+        @DisplayName("Response Tests")
+        class ResponseTests {
+
+        }
+    }
 }
