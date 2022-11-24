@@ -91,6 +91,7 @@ public class ConnectionManager {
         if (finalURL.endsWith("/")) {
             finalURL.replaceAll("\\/$", "");
         }
+
         for (String key : parameters.keySet()) {
             if (finalURL.contains("?")) {
                 finalURL += "&";
