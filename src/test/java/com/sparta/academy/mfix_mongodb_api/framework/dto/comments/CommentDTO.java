@@ -1,8 +1,14 @@
 package com.sparta.academy.mfix_mongodb_api.framework.dto.comments;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.sparta.academy.mfix_mongodb_api.model.entity.Comment;
+import org.springframework.data.mongodb.core.aggregation.StringOperators;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class CommentDTO {
 
@@ -108,4 +114,40 @@ public class CommentDTO {
     public int hashCode() {
         return Objects.hash(id, name, date, email, movieId, text);
     }
-}
+
+    // Check that fields are not null
+    public boolean isCommentDTOFieldsValid(CommentDTO dto) {
+        return  isValueValid(dto.getId()) &&
+                isValueValid(dto.getEmail()) &&
+                isValueValid(dto.getName()) &&
+                isValueValid(dto.getText()) &&
+                isValueValid(dto.getDate()) &&
+                isValueValid(dto.getMovieId());
+    }
+
+    private boolean isValueValid(String value) {
+        return value != null && value.length() > 0;
+    }
+
+    // Check email format is correct
+    public boolean isEmailValid() {
+        Pattern VALID_EMAIL_ADDRESS_REGEX =
+                Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
+        Matcher matcher = VALID_EMAIL_ADDRESS_REGEX.matcher(this.getEmail());
+        return matcher.find();
+    }
+
+    public boolean isMovieIdValid() {
+        return true; // TODO
+    }
+
+    // Check that date is in a valid ISO format
+    public boolean isDateValid() {
+        try {
+            LocalDate.parse(this.getDate());
+        } catch (DateTimeParseException e) {
+            return false;
+        }
+        return true;
+    }
+ }
