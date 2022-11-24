@@ -5,7 +5,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
 @Document(collection = "theaters")
-public class TheaterDTO {
+public class Theater {
 
 
     @Field

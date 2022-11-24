@@ -1,9 +1,8 @@
-package com.sparta.academy.mfix_mongodb_api.framework.dto;
+package com.sparta.academy.mfix_mongodb_api.framework.dto.user;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class UserDTO {
-
     @JsonProperty("id")
     private String id;
 
