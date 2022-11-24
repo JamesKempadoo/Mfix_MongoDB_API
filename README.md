@@ -1,4 +1,4 @@
-# Mfix_MongoDB_API
+# Mflix MongoDB API
 **Developed by <ins>Sparta Engineering Academy</ins>: 
 Riya, 
 Max,
@@ -34,14 +34,14 @@ Mohamed.**
 ## About Project
 
 
-This  updatedreadmeproject is developed as a team of 18, building a restful API connected to a mongo database that allows for CRUD operations requested by the user. The structure of the 
-rest API uses MVC model and Swagger is used to display the API endpoint requests.
+This project is developed as a team of 19, building a RESTful API connected to a Mongo database that allows for CRUD operations requested by the user. The structure of the 
+RESTful API uses MVC model and Swagger is used to display the API endpoint requests.
 Also creating a testing framework structure (Service Object Model), using Jackson,
 BDD Development and Cucumber, Rest-Assured, implementing JUnit and Hamcrest Tests, as well as using mocking to test the framework. We also
 made use of a singleton logger to log the classes.
 
 The project's functionality is using a MongoDB and cloud-based solution for accessing information about movies,
-allowing users to post or read comments on movies and managing a film schedule for cinemas. Also building a testing framework to test the MongoDB API for testers to use.
+allowing users to post or read comments on movies and managing a film schedule for theaters. Also building a testing framework to test the MongoDB API for testers to use.
 
 
 
@@ -49,7 +49,8 @@ allowing users to post or read comments on movies and managing a film schedule f
 ### <span style="color: blue;">**Built With**</span>
 
 * IntelliJ IDEA (Ultimate Edition)
-
+* Spring
+* Maven
 ### <span style="color: blue;">**Dependencies**</span>
 
 * spring-boot-starter-web
@@ -64,23 +65,28 @@ allowing users to post or read comments on movies and managing a film schedule f
 ## Requirements
 
 * To build a RESTful API which allows full CRUD access to the existing data for these 4 collections
-* The mongo DB contains sample database (sample_mflix) which includes details of movies, comments, "theaters" and users.
+* The [sample database (sample_mflix)](https://www.mongodb.com/docs/atlas/sample-data/sample-mflix/) which includes details of movies, comments, "theaters" and users.
 * Create an API testing framework which checks the REST service is working and provides a BDD layer
 
 
 
 ## Getting Started
 
-Run the project using Ultimate Edition.
-Make sure to install the dependencies and software included.
-
-Clone the repository below.
+Clone the repository
 ```
 git clone https://github.com/JamesKempadoo/Mfix_MongoDB_API.git
 ```
+Check Maven dependancies are installed
 
+Edit application.properties with your DB URI
+```
+spring.data.mongodb.uri=mongodb+srv://<user>:<pass>@yourCluster.mongodb.net/?retryWrites=true&w=majority
+spring.data.mongodb.database=sample_mflix
+database.uri=mongodb+srv://<user>:<pass>@yourCluster.mongodb.net/sample_mflix
+```
+Run application via MfixMongoDbApiApplication.java
 # Program Structure
-## Restful API Structure
+## RESTful API Structure
 
 * **controller**
   * CommentsController
@@ -131,8 +137,8 @@ git clone https://github.com/JamesKempadoo/Mfix_MongoDB_API.git
   * UserRepository 
 
 * **connection**
-    * Connection Manager
-    * Connection Response
+    * ConnectionManager
+    * ConnectionResponse
   
 * **Cucumber**
   * CommentStepdefs
