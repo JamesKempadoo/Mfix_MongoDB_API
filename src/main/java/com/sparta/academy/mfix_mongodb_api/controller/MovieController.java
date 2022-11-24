@@ -48,7 +48,7 @@ public class MovieController {
         }
     }
 
-    @GetMapping("/movies/{id}")
+    @GetMapping(value = "/movies/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> getMovieById(@PathVariable String id) {
         ResponseEntity<String> response;
         ObjectMapper objectMapper = new ObjectMapper();
@@ -166,9 +166,8 @@ public class MovieController {
         return response;
     }
 
-    @DeleteMapping("/movies/{id}")
+    @DeleteMapping(value = "/movies/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> deleteByID(@PathVariable String id) {
-
         try {
             repository.deleteById(id);
         } catch (NoSuchElementException e) {
@@ -177,7 +176,7 @@ public class MovieController {
         return ResponseEntity.status(HttpStatus.OK).body("Movie with ID " + id + " has been deleted Successfully!");
     }
 
-    @PutMapping("/movies/{id}")
+    @PutMapping(value = "/movies/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Movie editMovie(@RequestBody Movie newMovie, @PathVariable String id) {
         return repository.findById(id).map(movie -> {
             movie.setDirectors(newMovie.getDirectors());
@@ -236,7 +235,7 @@ public class MovieController {
         return response;
     }
 
-    @GetMapping("movies/number")
+    @GetMapping(value = "movies/number", produces = MediaType.APPLICATION_JSON_VALUE)
     public int getNumber() {
 
         return repository.countMovieByIdNotNull();
