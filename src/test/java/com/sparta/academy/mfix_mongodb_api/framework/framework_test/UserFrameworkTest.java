@@ -157,6 +157,7 @@ public class UserFrameworkTest {
 
         // WHEN a user is deleted THEN the http status response is 200 SO THAT the requester knows that the call succeeded
         // WHEN a user is deleted THEN getting a list of users with the same id should return an empty collection SO THAT the users data is ensured to have been removed
+
         // WHEN a user that does not exist is deleted THEN the http status response is 400 and the response body should be a json error telling the user that the user does not exist SO THAT the caller is aware of the user not existing
 
         @Nested

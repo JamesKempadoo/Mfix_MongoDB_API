@@ -33,7 +33,7 @@ public class Address{
 	}
 
 	public boolean hasValidZipcode() {
-		return zipcode.contains("[0-9]{5}");
+		return zipcode.matches("[0-9]{5}");
 	}
 
 	public boolean isCityFirstLetterCapital() {

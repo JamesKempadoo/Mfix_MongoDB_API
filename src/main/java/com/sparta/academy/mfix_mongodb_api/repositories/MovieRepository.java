@@ -11,6 +11,6 @@ public interface MovieRepository extends MongoRepository <Movie, String> {
     void deleteById (String ID);
     List<Movie> getAllByTitleContains(String title);
     List<Movie> getAllByGenresContaining(String genre);
-    List<Movie> getAllByDirectorsContains(String director);
     List<Movie> getAllByYearBetween(int year, int endYear);
+    int countMovieByIdNotNull();
 }

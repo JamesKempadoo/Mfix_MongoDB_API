@@ -60,7 +60,6 @@ public class TheaterController {
             throw new NoTheaterFoundException();
         }
 
-
         return theater;
     }
 
@@ -69,7 +68,6 @@ public class TheaterController {
 
         if(theaterRepository.existsByTheaterId(id)){
             theaterRepository.deleteTheaterDTOByTheaterId(id);
-//            theaterRepository.removeTheaterDTOByTheaterId(id);
 
         } else {
             throw new NoTheaterFoundException();
