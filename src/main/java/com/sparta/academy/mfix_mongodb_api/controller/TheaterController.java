@@ -5,7 +5,7 @@ package com.sparta.academy.mfix_mongodb_api.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sparta.academy.mfix_mongodb_api.entity.theater.Location;
-import com.sparta.academy.mfix_mongodb_api.entity.theater.TheaterDTO;
+import com.sparta.academy.mfix_mongodb_api.entity.theater.Theater;
 import com.sparta.academy.mfix_mongodb_api.exceptions.NoTheaterFoundException;
 import com.sparta.academy.mfix_mongodb_api.repositories.TheaterRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,14 +27,14 @@ public class TheaterController {
 
 
     @GetMapping("/theaters/all")
-    public List<TheaterDTO> getAllTheaters() {
+    public List<Theater> getAllTheaters() {
         return theaterRepository.findAll();
     }
 
     @GetMapping("/theaters/{id}")
-    public TheaterDTO getTheaterByID(@PathVariable Integer id) throws NoTheaterFoundException {
+    public Theater getTheaterByID(@PathVariable Integer id) throws NoTheaterFoundException {
 
-        TheaterDTO theater = null;
+        Theater theater = null;
         theater = theaterRepository.getTheaterDTOByTheaterId(id);
 
         if(theater == null){
@@ -44,21 +44,22 @@ public class TheaterController {
     }
 
     @PostMapping("/theaters/new")
-    public ResponseEntity<String> addNewTheater(@RequestBody TheaterDTO theater) throws JsonProcessingException {
+    public ResponseEntity<String> addNewTheater(@RequestBody Theater theater) throws JsonProcessingException {
         ResponseEntity<String> response;
         if(theaterRepository.findAll().contains(theaterRepository.getTheaterDTOByTheaterId(theater.getTheaterId()))){
+            System.out.println("non unique id");
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Theater with id " + theater.getTheaterId() + " already exists");
         } else if(theater.getTheaterId() < 0){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("TheaterId must be equal or greater than 0");
         } else if(theater.getLocation() == null){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Location is null");
-        } else if(((theater.getLocation().getGeo().getCoordinates().get(1) >= -90 && theater.getLocation().getGeo().getCoordinates().get(1) <=90) && (theater.getLocation().getGeo().getCoordinates().get(0) >= -180 && theater.getLocation().getGeo().getCoordinates().get(0) <=180))){
+        } else if((!(theater.getLocation().getGeo().getCoordinates().get(0) >= -180 && theater.getLocation().getGeo().getCoordinates().get(0) <=180) && !(theater.getLocation().getGeo().getCoordinates().get(1) >= -90 && theater.getLocation().getGeo().getCoordinates().get(1) <=90))){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Wrong coordinates introduced.");
         } else if(theater.getLocation().getGeo().getType() == null || theater.getLocation().getGeo().getType().isBlank()){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Wrong geo type introduced.");
         } else if(!theater.getLocation().getAddress().getZipcode().matches("[0-9]{5}")){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Wrong zipcode introduced.");
-        } else if(theater.getLocation().getAddress().getCity() == null || theater.getLocation().getAddress().getCity().isBlank() || Character.isUpperCase(theater.getLocation().getAddress().getCity().charAt(0))){
+        } else if(theater.getLocation().getAddress().getCity() == null || theater.getLocation().getAddress().getCity().isBlank() || !Character.isUpperCase(theater.getLocation().getAddress().getCity().charAt(0))){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Wrong city introduced.");
         } else if(theater.getLocation().getAddress().getStreet1() == null || theater.getLocation().getAddress().getStreet1().isBlank()){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Street field cannot be empty.");
@@ -77,8 +78,8 @@ public class TheaterController {
     }
 
     @PatchMapping(value = "/theaters/{id}", consumes = "application/json")
-    public TheaterDTO updateTheaterLocationByTheaterID(@PathVariable Integer id, @RequestBody Location location) throws NoTheaterFoundException {
-        TheaterDTO theater = theaterRepository.getTheaterDTOByTheaterId(id);
+    public Theater updateTheaterLocationByTheaterID(@PathVariable Integer id, @RequestBody Location location) throws NoTheaterFoundException {
+        Theater theater = theaterRepository.getTheaterDTOByTheaterId(id);
 
         System.out.println(location.toString());
         if(theater != null){
@@ -92,15 +93,14 @@ public class TheaterController {
     }
 
     @DeleteMapping("/theaters/{id}")
-    public String removeTheaterbyId(@PathVariable Integer id){
+    public ResponseEntity<String> removeTheaterbyId(@PathVariable Integer id){
 
         if(theaterRepository.existsByTheaterId(id)){
             theaterRepository.deleteTheaterDTOByTheaterId(id);
-
-        } else {
-            throw new NoTheaterFoundException();
+            return ResponseEntity.status(HttpStatus.OK).body("Theater with ID " + id + " has been deleted successfully.");
         }
-        return "Theater removed successfully";
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No theater with ID " + id);
 
     }
+
 }
