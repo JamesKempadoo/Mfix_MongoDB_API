@@ -33,149 +33,158 @@ Mohamed.**
 
 ## About Project
 
-This project is developed as a team of 19, following a testing framework structure (Service Object Model), using Jackson ,
-BDD Development and Cucumber, Rest-Assured, implementing JUnit and Hamcrest Tests, as well as using mocking to test the framework.
 
-The project's functionality is building an API using MongoDB, while also creating a testing framework and using BDD. 
+This  updatedreadmeproject is developed as a team of 18, building a restful API connected to a mongo database that allows for CRUD operations requested by the user. The structure of the 
+rest API uses MVC model and Swagger is used to display the API endpoint requests.
+Also creating a testing framework structure (Service Object Model), using Jackson,
+BDD Development and Cucumber, Rest-Assured, implementing JUnit and Hamcrest Tests, as well as using mocking to test the framework. We also
+made use of a singleton logger to log the classes.
+
+The project's functionality is using a MongoDB and cloud-based solution for accessing information about movies,
+allowing users to post or read comments on movies and managing a film schedule for cinemas. Also building a testing framework to test the MongoDB API for testers to use.
+
+
+
 
 ### <span style="color: blue;">**Built With**</span>
 
-* IntelliJ IDEA (Community Edition)
+* IntelliJ IDEA (Ultimate Edition)
 
 ### <span style="color: blue;">**Dependencies**</span>
 
-* hamcrest-core
-* junit-jupiter
-* mockito-core
-* jackson-databind
-* rest-assured
+* spring-boot-starter-web
+* spring-boot-starter-data-mongodb
+* spring-boot-starter-hateoas
+* springdoc-openapi-ui
+* spring-boot-starter-test
 * cucumber-java
 * cucumber-junit
 * junit-vintage-engine
 
 ## Requirements
 
-* Creating a Service Object Model as the API has a number of different responses, which consists of :
-    * DTO: Classes that represent the different types of responses that can be called
-    * Connection: A class which handles the connection to the live system and collecting the response.
-    * Injector: A class responsible for injecting the payload into an appropriate DTO
-* DTOs should also provide access to all the data that testers could find useful.
-* Provide example test beds showing examples of ALL the different types of test that can be performed for all the endpoints of the Star Wars API.
-* Examples of Test classes with and without using the framework to compare the benefits of using the framework.
-* Exposing tests via BDD using cucumber so a non technical person can see what is being checked.
+* To build a RESTful API which allows full CRUD access to the existing data for these 4 collections
+* The mongo DB contains sample database (sample_mflix) which includes details of movies, comments, "theaters" and users.
+* Create an API testing framework which checks the REST service is working and provides a BDD layer
+
 
 
 ## Getting Started
 
-Run the project using IntelliJ Community / Ultimate Edition.
+Run the project using Ultimate Edition.
 Make sure to install the dependencies and software included.
 
 Clone the repository below.
 ```
-git clone https://github.com/MRobertsSparta/SWAPITestingFramework.git
+git clone https://github.com/JamesKempadoo/Mfix_MongoDB_API.git
 ```
 
-# Testing Framework Structure
+# Program Structure
+## Restful API Structure
+
+* **controller**
+  * CommentsController
+  * MovieController
+  * SessionsController
+  * TheaterController
+  * UserController
+  
+* **exceptions**
+  * ControllerExceptionHandler
+  * NoTheaterFoundException
+  * ResourceException
+  * IDNotFoundException
+ 
+* **logging**
+  * CustomConsoleHandler
+  * CustomFileHandler 
+  * CustomFilter
+  * CustomFormatter
+  * CustomLoggerConfiguration
+  * Log
+  * LoggerSingleton
+  * LoggingExample
+
+* **model**
+  * DBConfig
+  * MongoConfig
+  
+* **entity**
+  * Comment
+  * imdb
+  * Movie
+  * Theater
+  * Tomato
+  * User
+  * Viewer
+
+* **theater**
+  * Address
+  * Geo
+  * Location
+  * Theater
+  
+* **repositories**
+  * CommentRepository
+  * MovieRepository
+  * TheaterRepository 
+  * UserRepository 
+
 * **connection**
     * Connection Manager
     * Connection Response
-
-* **injection**
-    * Injector
+  
+* **Cucumber**
+  * CommentStepdefs
+  * MovieStepdefs
+  * TestRunner
+  * TheatreStepdefs
+  * UserStepdefs
 
 * **dto**
-    * FilmsCollectionDTO
-    * FilmsDTO
-    * PeopleCollectionDTO
-    * PeopleDTO
-    * PlanetCollectionDTO
-    * PlanetsDTO
-    * SpeciesCollectionDTO
-    * SpeciesDTO
-    * StarshipCollectionDTO
-    * StarshipDTO
-    * VehicleCollectionDTO
-    * VehicleDTO
+* **comments**
+  * CommentsDTO 
 
-* **SWAPIRegex**
+* **movie**
+  * imdb
+  * MovieDTO
+  * Tomatoes
+  * Viewer
+
+* **theater**
+  * Address
+  * Geo
+  * Location
+  * TheaterDTO
+
+* **User**
+  * UserDTO
+
+* **Exceptions**
+  * ConnectionManagementException
+  * InjectorException
+
+* **framework_test**
+  * FrameworkTest
+  * TheaterDTOTest
+  * MovieDTOTest
+  * UserDTOTest
+
+* **controller_test**
+  * UserControllerTest 
+
+* **injection**
+  * Injector
+
+* **services**
+  * Services
 
 # Endpoint Testing Examples
 
-## Without Framework
 
-### Connection setUp
-```
-    @BeforeAll
-    static void setupAll() {
-        mapper = new ObjectMapper();
-        //no constructor but u call upon a method instead
-        client = HttpClient.newHttpClient();
-        try {
-            //Builder pattern
-            request = HttpRequest.newBuilder()
-                    .uri(new URI("https://swapi.dev/api/vehicles/?format=json"))
-                    .build();
-            response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            vehicleCollectionDTO = mapper.readValue(new URL("https://swapi.dev/api/vehicles/?format=json"), VehicleCollectionDTO.class);
-            vehicleDTO = vehicleCollectionDTO.getResults().get(0);
 
-        } catch (URISyntaxException | IOException | InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-    }
-```
-
-### Test for Checking list of starships matches the count for Starships Endpoint
-```
-        @Test
-        @DisplayName("Check list of starships size matches the count")
-        void checkStarshipsCountMatchesListTotal(){
-            //list for storing starships
-            List<StarshipDTO> starshipList = new ArrayList<>();
-            do {
-                starshipList.addAll(dto.getResults());
-                try {
-                    //move onto next page
-                    dto = mapper.readValue(new URL(dto.getNext()), StarshipCollectionDTO.class);
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-                //before stopping the loop, add the last results list
-                if(dto.getNext() == null){
-                    starshipList.addAll(dto.getResults());
-                }
-            }while(dto.getNext() != null);
-
-            //now that all starships have been added to a list
-            //compare size with the .getCount from the JSON response
-            Assertions.assertEquals(dto.getCount(), starshipList.size());
-        }
-```
-
-## With Framework
-
-### Connection setUp
-
-```
-    @BeforeAll
-    static void setupAll() {
-        response = ConnectionManager.from().baseURL().slash("vehicles").getResponse();
-        vehicleCollectionDTO = response.getBodyAs(VehicleCollectionDTO.class);
-        vehicleDTO = vehicleCollectionDTO.getResults().get(0);
-    }
-
-```
-
-### Test for Checking list of starships matches the count for Starships Endpoint
-
-```
-            @Test
-            @DisplayName("Check list of starships size matches the count")
-            void checkStarshipsCountMatchesListTotal(){
-                Assertions.assertTrue(collectionDTO.isTotalOfResultsEqualToCount());
-            }
-```
 # BDD And Cucumber
+
 
 ## Feature File for Planets
 
