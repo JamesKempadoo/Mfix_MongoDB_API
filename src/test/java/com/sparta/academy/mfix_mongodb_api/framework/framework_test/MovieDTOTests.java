@@ -1,6 +1,6 @@
 package com.sparta.academy.mfix_mongodb_api.framework.framework_test;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+
 import com.sparta.academy.mfix_mongodb_api.framework.connection.ConnectionManager;
 import com.sparta.academy.mfix_mongodb_api.framework.connection.ConnectionResponse;
 import com.sparta.academy.mfix_mongodb_api.framework.dto.movie.Imdb;
@@ -16,7 +16,7 @@ import org.junit.jupiter.params.provider.NullAndEmptySource;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Arrays;
+
 import java.util.List;
 import java.util.Random;
 
@@ -26,7 +26,6 @@ public class MovieDTOTests {
     private static Imdb imdb;
     private static ConnectionResponse collectionResponse;
     private static ConnectionResponse response;
-    private static ObjectMapper mapper;
 
     @BeforeAll
     static void setUp() {
@@ -39,7 +38,6 @@ public class MovieDTOTests {
         response = ConnectionManager.from().baseURL().slash("movies").slash(dto.getId()).getResponse();
         dto = response.getBodyAs(MovieDTO.class);
         imdb = dto.getImdb();
-        mapper = new ObjectMapper();
     }
 
     @Nested
@@ -249,7 +247,7 @@ public class MovieDTOTests {
             @Test
             @DisplayName("Check that the fullplot is not null")
             void checkThatTheFullPlotIsNotNull() {
-                Assertions.assertTrue(dto.getFullplot() != null);
+                Assertions.assertNotNull(dto.getFullplot());
             }
 
             @Test
@@ -341,10 +339,8 @@ public class MovieDTOTests {
     @Nested
     @DisplayName("DELETE, Movie Tests")
     class RemovedMovieTests{
-        private static ConnectionResponse postResponse;
         private static ConnectionResponse deleteResponse;
         private static MovieDTO addedMovie;
-        private static MovieDTO deletedMovie;
 
         @BeforeAll
         static void setup(){
@@ -356,7 +352,7 @@ public class MovieDTOTests {
                 throw new RuntimeException(e);
             }
 
-            postResponse = ConnectionManager.from().baseURL().slash("movies").usingMethod("POST").withBody(jsonBody).getResponse();
+            ConnectionResponse postResponse = ConnectionManager.from().baseURL().slash("movies").usingMethod("POST").withBody(jsonBody).getResponse();
             addedMovie = postResponse.getBodyAs(MovieDTO.class);
 
             deleteResponse = ConnectionManager.from().baseURL().slash("movies").slash(addedMovie.getId()).usingMethod("Delete").getResponse();
@@ -656,10 +652,8 @@ public class MovieDTOTests {
     @Nested
     @DisplayName("PUT, Movie Tests")
     class EditMovieTests{
-        private static ConnectionResponse postResponse;
         private static ConnectionResponse putResponse;
-        private static MovieDTO addedMovie;
-        private static MovieDTO editedMovie;
+        private static MovieDTO editedMovieCheck;
         @BeforeAll
         static void setup(){
             //request body for PUT request
@@ -672,11 +666,14 @@ public class MovieDTOTests {
                 throw new RuntimeException(e);
             }
 
-            postResponse = ConnectionManager.from().baseURL().slash("movies").usingMethod("POST").withBody(addJsonBody).getResponse();
-            addedMovie = postResponse.getBodyAs(MovieDTO.class);
+            ConnectionResponse postResponse = ConnectionManager.from().baseURL().slash("movies").usingMethod("POST").withBody(addJsonBody).getResponse();
+            MovieDTO addedMovie = postResponse.getBodyAs(MovieDTO.class);
 
             putResponse = ConnectionManager.from().baseURL().slash("movies").slash(addedMovie.getId()).usingMethod("PUT").withBody(editJsonBody).getResponse();
-            editedMovie = putResponse.getBodyAs(MovieDTO.class);
+            MovieDTO editedMovie = putResponse.getBodyAs(MovieDTO.class);
+
+            ConnectionResponse getResponse = ConnectionManager.from().baseURL().slash("movies").slash(editedMovie.getId()).getResponse();
+            editedMovieCheck = getResponse.getBodyAs(MovieDTO.class);
         }
 
         @Nested
@@ -706,48 +703,36 @@ public class MovieDTOTests {
             @Test
             @DisplayName("check If Movie Title was changed")
             void checkIfMovieTitleChanged() {
-                ConnectionResponse getResponse = ConnectionManager.from().baseURL().slash("movies").slash(editedMovie.getId()).getResponse();
-                MovieDTO editedMovieCheck = getResponse.getBodyAs(MovieDTO.class);
                 Assertions.assertEquals("Olympia Part Three: Festival of the Nations", editedMovieCheck.getTitle());
             }
 
             @Test
             @DisplayName("check If Movie Type was changed")
             void checkIfMovieTypeChanged() {
-                ConnectionResponse getResponse = ConnectionManager.from().baseURL().slash("movies").slash(editedMovie.getId()).getResponse();
-                MovieDTO editedMovieCheck = getResponse.getBodyAs(MovieDTO.class);
                 Assertions.assertEquals("series", editedMovieCheck.getType());
             }
 
             @Test
             @DisplayName("check If Movie Year was changed")
             void checkIfMovieYearChanged() {
-                ConnectionResponse getResponse = ConnectionManager.from().baseURL().slash("movies").slash(editedMovie.getId()).getResponse();
-                MovieDTO editedMovieCheck = getResponse.getBodyAs(MovieDTO.class);
                 Assertions.assertEquals("1999", editedMovieCheck.getYear());
             }
 
             @Test
             @DisplayName("check If Movie Runtime was changed")
             void checkIfMovieRuntimeChanged() {
-                ConnectionResponse getResponse = ConnectionManager.from().baseURL().slash("movies").slash(editedMovie.getId()).getResponse();
-                MovieDTO editedMovieCheck = getResponse.getBodyAs(MovieDTO.class);
                 Assertions.assertEquals(999, editedMovieCheck.getRuntime());
             }
 
             @Test
             @DisplayName("check If Movie Directors was changed")
             void checkIfMovieDirectorsChanged() {
-                ConnectionResponse getResponse = ConnectionManager.from().baseURL().slash("movies").slash(editedMovie.getId()).getResponse();
-                MovieDTO editedMovieCheck = getResponse.getBodyAs(MovieDTO.class);
-                Assertions.assertTrue(editedMovieCheck.getDirectors().contains("Justin"));
+               Assertions.assertTrue(editedMovieCheck.getDirectors().contains("Justin"));
             }
 
             @Test
             @DisplayName("check If Movie Countries was changed")
             void checkIfMovieCountriesChanged() {
-                ConnectionResponse getResponse = ConnectionManager.from().baseURL().slash("movies").slash(editedMovie.getId()).getResponse();
-                MovieDTO editedMovieCheck = getResponse.getBodyAs(MovieDTO.class);
                 Assertions.assertTrue(editedMovieCheck.getCountries().contains("UK"));
             }
         }
