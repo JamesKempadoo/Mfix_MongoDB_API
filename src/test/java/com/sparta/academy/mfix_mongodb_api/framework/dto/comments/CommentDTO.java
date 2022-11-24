@@ -2,6 +2,8 @@ package com.sparta.academy.mfix_mongodb_api.framework.dto.comments;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.Objects;
+
 public class CommentDTO {
 
     @JsonProperty
@@ -92,5 +94,18 @@ public class CommentDTO {
                 ", text='" + text + '\'' +
                 ", name='" + name + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        CommentDTO that = (CommentDTO) o;
+        return id.equals(that.id) && name.equals(that.name) && date.equals(that.date) && email.equals(that.email) && movieId.equals(that.movieId) && text.equals(that.text);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, date, email, movieId, text);
     }
 }

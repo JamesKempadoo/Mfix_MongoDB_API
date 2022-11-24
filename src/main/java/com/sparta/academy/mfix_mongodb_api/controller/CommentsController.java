@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.*;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.*;
 
 @RestController
@@ -51,8 +52,8 @@ public class CommentsController {
     public ResponseEntity<List<Comment>> getCommentsByName(@PathVariable String name) {
         List<Comment> listOfNames = new ArrayList<>();
         for (Comment comment : commentRepository.findAll()){
-            if (comment.name.contains(name)){
-                listOfNames.add(comment);
+            if (comment.name != null && comment.name.contains(name)){
+                    listOfNames.add(comment);
             }
         }
         if (listOfNames.isEmpty()){
@@ -73,6 +74,7 @@ public class CommentsController {
                 = DateTimeFormatter.ofPattern("EEE-LLL-d-HH:mm:ss-zzz-yyyy", Locale.ENGLISH);
         List<String> YMD = List.of(date.split("-"));
         List<Integer> YMDN = new ArrayList<>();
+
         for (String s: YMD){
             if (s.matches("\\d+(\\.\\d+)?")){
                 YMDN.add(Integer.parseInt(s));
@@ -80,8 +82,11 @@ public class CommentsController {
                 return new ResponseEntity<>(listOfComments, HttpStatus.BAD_REQUEST);
             }
         }
+
         for (Comment comment : commentRepository.findAll()){
-            LocalDateTime localDateTime = LocalDateTime.parse(comment.getDate().replace(" ", "-"), format);
+
+            try {
+                LocalDateTime localDateTime = LocalDateTime.parse(comment.getDate().replace(" ", "-"), format);
 
             if (YMDN.size()!=0
                     && localDateTime.getYear() == YMDN.get(0)){
@@ -94,6 +99,10 @@ public class CommentsController {
                     }
                 }
             }
+            } catch ( DateTimeParseException ignored){
+
+            }
+
         }
         return new ResponseEntity<>(listOfComments, status);
     }
@@ -117,6 +126,7 @@ public class CommentsController {
                 listOfEmails.add(comment);
             }
         }
+
         if (listOfEmails.isEmpty()){
             return new ResponseEntity<>(listOfEmails,HttpStatus.NOT_FOUND);
         }
