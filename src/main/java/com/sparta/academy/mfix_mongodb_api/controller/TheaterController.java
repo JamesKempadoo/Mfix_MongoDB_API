@@ -2,8 +2,8 @@ package com.sparta.academy.mfix_mongodb_api.controller;
 
 //import com.sparta.academy.mfix_mongodb_api.entity.Theater;
 
-import com.sparta.academy.mfix_mongodb_api.model.entity.theater.Location;
-import com.sparta.academy.mfix_mongodb_api.model.entity.theater.TheaterDTO;
+import com.sparta.academy.mfix_mongodb_api.entity.theater.Location;
+import com.sparta.academy.mfix_mongodb_api.entity.theater.TheaterDTO;
 import com.sparta.academy.mfix_mongodb_api.exceptions.NoTheaterFoundException;
 import com.sparta.academy.mfix_mongodb_api.repositories.TheaterRepository;
 import org.springframework.beans.factory.annotation.Autowired;

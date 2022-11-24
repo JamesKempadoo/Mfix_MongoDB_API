@@ -1,4 +1,4 @@
-package com.sparta.academy.mfix_mongodb_api.model.entity;
+package com.sparta.academy.mfix_mongodb_api.entity;
 
 public class Imdb{
     private String id;

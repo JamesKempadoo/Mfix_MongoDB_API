@@ -1,4 +1,4 @@
-package com.sparta.academy.mfix_mongodb_api.model.entity;
+package com.sparta.academy.mfix_mongodb_api.entity;
 
 import nonapi.io.github.classgraph.json.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
