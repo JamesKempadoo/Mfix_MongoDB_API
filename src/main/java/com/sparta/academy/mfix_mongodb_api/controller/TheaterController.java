@@ -4,9 +4,9 @@ package com.sparta.academy.mfix_mongodb_api.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sparta.academy.mfix_mongodb_api.entity.theater.Location;
-import com.sparta.academy.mfix_mongodb_api.entity.theater.Theater;
+import com.sparta.academy.mfix_mongodb_api.model.entity.theater.Location;
 import com.sparta.academy.mfix_mongodb_api.exceptions.NoTheaterFoundException;
+import com.sparta.academy.mfix_mongodb_api.model.entity.theater.Theater;
 import com.sparta.academy.mfix_mongodb_api.repositories.TheaterRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
