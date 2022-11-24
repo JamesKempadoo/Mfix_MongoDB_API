@@ -4,6 +4,7 @@ Riya,
 Max,
 Justin,
 Abdulhadi,
+Fransico,
 Calum,
 Gurjeev,
 Igran,
@@ -32,10 +33,10 @@ Mohamed.**
 
 ## About Project
 
-This project is developed as a team of 6, following a testing framework structure (Service Object Model), using Jackson ,
+This project is developed as a team of 19, following a testing framework structure (Service Object Model), using Jackson ,
 BDD Development and Cucumber, Rest-Assured, implementing JUnit and Hamcrest Tests, as well as using mocking to test the framework.
 
-The project's functionality is building a testing framework to test the Star Wars API for testers to use.
+The project's functionality is building an API using MongoDB, while also creating a testing framework and using BDD. 
 
 ### <span style="color: blue;">**Built With**</span>
 
