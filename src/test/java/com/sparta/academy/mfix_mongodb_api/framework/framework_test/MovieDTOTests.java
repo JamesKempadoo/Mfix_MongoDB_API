@@ -2,7 +2,7 @@ package com.sparta.academy.mfix_mongodb_api.framework.framework_test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sparta.academy.mfix_mongodb_api.controller.MovieController;
-import com.sparta.academy.mfix_mongodb_api.entity.Movie;
+import com.sparta.academy.mfix_mongodb_api.model.entity.Movie;
 import com.sparta.academy.mfix_mongodb_api.framework.connection.ConnectionManager;
 import com.sparta.academy.mfix_mongodb_api.framework.connection.ConnectionResponse;
 import com.sparta.academy.mfix_mongodb_api.framework.dto.movie.Imdb;
