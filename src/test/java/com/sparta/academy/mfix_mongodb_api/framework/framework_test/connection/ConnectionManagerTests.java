@@ -2,9 +2,9 @@ package com.sparta.academy.mfix_mongodb_api.framework.framework_test.connection;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sparta.academy.mfix_mongodb_api.entity.User;
 import com.sparta.academy.mfix_mongodb_api.framework.connection.ConnectionManager;
 import com.sparta.academy.mfix_mongodb_api.framework.connection.ConnectionResponse;
+import com.sparta.academy.mfix_mongodb_api.model.entity.User;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;

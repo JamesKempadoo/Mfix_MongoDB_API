@@ -15,16 +15,15 @@ Feature: Testing scenarios for movies endpoint
 
   @scenarioDeleteMovies
   Scenario: Deleting a single movies
-    When I issue a delete request for a theatre by movies ID
+    When I issue a delete request by movies ID
     Then It should remove the movies data
 
   @scenarioUpdateMovies
   Scenario: Updating a single movies
-    When I issue a patch request for a theatre by movies ID
+    When I issue a put request for a movie
     Then The movies information should be updated
 
-  @scenarioCreateTheatre
+  @scenarioCreateMovies
   Scenario: Creating a single movies
     When I issue a post request for a movies
     Then A new movies will be created
-    And check theatre was added to the movies
