@@ -194,12 +194,12 @@ Run application via MfixMongoDbApiApplication.java
 
 ## Feature File for Planets
 
-![feauture_file](https://github.com/JamesKempadoo/Mfix_MongoDB_API/blob/dev/programscreenshots/feature.png)
+![feauture_file](https://github.com/JamesKempadoo/Mfix_MongoDB_API/blob/updatedreadme/programscreenshots/feature.png)
 
 ## Stepdefs File for Feature File of Planets
 
-![stepdefs_file](https://github.com/JamesKempadoo/Mfix_MongoDB_API/blob/dev/programscreenshots/stepdefs.png)
+![stepdefs_file](https://github.com/JamesKempadoo/Mfix_MongoDB_API/blob/updatedreadme/programscreenshots/stepdefs.png)
 
 ## HTML File on Planets Features Tested on Cucumber
 
-![html_file](https://github.com/JamesKempadoo/Mfix_MongoDB_API/blob/dev/programscreenshots/htmlfile.png)
+![html_file](https://github.com/JamesKempadoo/Mfix_MongoDB_API/blob/updatedreadme/programscreenshots/htmlfile.png)
