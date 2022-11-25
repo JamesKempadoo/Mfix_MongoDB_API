@@ -1,4 +1,4 @@
-package com.sparta.academy.mfix_mongodb_api.framework.framework_test;
+package com.sparta.academy.mfix_mongodb_api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sparta.academy.mfix_mongodb_api.framework.connection.ConnectionManager;

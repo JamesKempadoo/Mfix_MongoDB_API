@@ -11,7 +11,7 @@ Feature: Testing scenarios for users endpoint
     @scenarioSingleUserGet
     Scenario: Getting a single users data
       When I issue a get request for a single user
-      Then It should return the post and comments for that specific user
+      Then It should return that specific user
 
     @scenarioDeleteUser
     Scenario: Deleting a single user
@@ -27,5 +27,4 @@ Feature: Testing scenarios for users endpoint
     Scenario: Creating a single user
       When I issue a post request for a user
       Then A new user will be created
-      And check user was added to the database
 

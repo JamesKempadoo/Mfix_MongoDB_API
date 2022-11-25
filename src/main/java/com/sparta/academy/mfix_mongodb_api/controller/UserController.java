@@ -45,12 +45,20 @@ public class UserController {
     }
 
     @PostMapping("/users")
-    public User createUser(@RequestBody User user) {
-        return userRepository.save(user);
+    public ResponseEntity<User> createUser(@RequestBody User user) {
+        if (!userRepository.existsUserByEmail(user.getEmail())) {
+            return ResponseEntity.status(HttpStatus.OK).body(userRepository.save(user));
+        }
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(user);
     }
 
     @PatchMapping("/users")
-    public User updateUser(@RequestBody User user) {
-        return userRepository.save(user);
+    public ResponseEntity<User> updateUser(@RequestBody User user) {
+        if (userRepository.existsUserByEmail(user.getEmail())) {
+            return ResponseEntity.status(HttpStatus.OK).body(userRepository.save(user));
+        }
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(user);
     }
 }
