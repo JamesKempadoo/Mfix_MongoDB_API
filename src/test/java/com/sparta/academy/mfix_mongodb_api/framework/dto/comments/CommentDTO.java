@@ -5,7 +5,9 @@ import com.sparta.academy.mfix_mongodb_api.model.entity.Comment;
 import org.springframework.data.mongodb.core.aggregation.StringOperators;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -116,13 +118,13 @@ public class CommentDTO {
     }
 
     // Check that fields are not null
-    public boolean isCommentDTOFieldsValid(CommentDTO dto) {
-        return  isValueValid(dto.getId()) &&
-                isValueValid(dto.getEmail()) &&
-                isValueValid(dto.getName()) &&
-                isValueValid(dto.getText()) &&
-                isValueValid(dto.getDate()) &&
-                isValueValid(dto.getMovieId());
+    public boolean isCommentDTOFieldsValid() {
+        return  isValueValid(this.getId()) &&
+                isValueValid(this.getEmail()) &&
+                isValueValid(this.getName()) &&
+                isValueValid(this.getText()) &&
+                isValueValid(this.getDate()) &&
+                isValueValid(this.getMovieId());
     }
 
     private boolean isValueValid(String value) {
@@ -144,7 +146,8 @@ public class CommentDTO {
     // Check that date is in a valid ISO format
     public boolean isDateValid() {
         try {
-            LocalDate.parse(this.getDate());
+            LocalDate.parse(this.getDate(),
+                    DateTimeFormatter.ofPattern("EEE LLL d HH:mm:ss zzz yyyy", Locale.ENGLISH));
         } catch (DateTimeParseException e) {
             return false;
         }
