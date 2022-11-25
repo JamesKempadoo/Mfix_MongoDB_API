@@ -26,9 +26,6 @@ Mohamed.**
     * [Dependencies](#dependencies)
 * [**Requirements**](#requirements)
 * [**Getting Started**](#getting-started)
-* [**Endpoint Testing Examples**](#endpoints)
-    * [Without Framework](#without-framework)
-    * [With Framework](#with-framework)
 * [**BDD And Cucumber**](#bdd-and-cucumber)
 
 ## About Project
@@ -185,21 +182,15 @@ Run application via MfixMongoDbApiApplication.java
 * **services**
   * Services
 
-# Endpoint Testing Examples
-
-
-
 # BDD And Cucumber
-
-
-## Feature File for Planets
+## Feature File for Movies
 
 ![feauture_file](https://github.com/JamesKempadoo/Mfix_MongoDB_API/blob/updatedreadme/programscreenshots/feature.png)
 
-## Stepdefs File for Feature File of Planets
+## Stepdefs File for Feature File of Movies
 
 ![stepdefs_file](https://github.com/JamesKempadoo/Mfix_MongoDB_API/blob/updatedreadme/programscreenshots/stepdefs.png)
 
-## HTML File on Planets Features Tested on Cucumber
+## HTML File on Movies Features Tested on Cucumber
 
 ![html_file](https://github.com/JamesKempadoo/Mfix_MongoDB_API/blob/updatedreadme/programscreenshots/htmlfile.png)
