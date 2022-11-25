@@ -1,4 +1,4 @@
-package com.sparta.academy.mfix_mongodb_api.framework.framework_test;
+package com.sparta.academy.mfix_mongodb_api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sparta.academy.mfix_mongodb_api.framework.connection.ConnectionManager;
@@ -6,6 +6,7 @@ import com.sparta.academy.mfix_mongodb_api.framework.connection.ConnectionRespon
 import com.sparta.academy.mfix_mongodb_api.framework.dto.theater.Address;
 import com.sparta.academy.mfix_mongodb_api.framework.dto.theater.Geo;
 import com.sparta.academy.mfix_mongodb_api.framework.dto.theater.TheaterDTO;
+import com.sparta.academy.mfix_mongodb_api.framework.services.MFlixApplication;
 import org.junit.jupiter.api.*;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -102,13 +103,14 @@ public class TheaterDTOTests {
         @Nested
         class GETTests{
             private static TheaterDTO dto;
+
+            private static TheaterDTO[] theaterDTOS;
             private static ConnectionResponse response;
             private Geo geo = dto.getLocation().getGeo();
             private Address address = dto.getLocation().getAddress();
 
             @BeforeAll
             static void setUp()  {
-
                 response = ConnectionManager.from()
                         .baseURL()
                         .slash("theaters")
@@ -116,13 +118,26 @@ public class TheaterDTOTests {
                         .getResponse();
 
                 dto = response.getBodyAs(TheaterDTO.class);
-                System.out.println(dto.toString());
+
+                theaterDTOS = ConnectionManager.from().baseURL().slash("theaters").slash("all").getResponse().getBodyAsArrayOf(TheaterDTO.class);
+            }
+
+            @Test
+            @DisplayName("Check that a GET request at all theaters endpoint returns a list of theaters")
+            void checkThatAGetRequestAtAllTheatersEndpointReturnsAListOfTheaters() {
+                assertThat(theaterDTOS.length,greaterThan(0));
             }
 
             @Test
             @DisplayName("Check connection response is 200")
             void checkConnectionResponseIs200() {
                 assertThat(response.getStatusCode(), is(200));
+            }
+
+            @Test
+            @DisplayName("Check that the created theater dto is not null")
+            void checkThatTheCreatedTheaterDtoIsNotNull() {
+                assertThat(dto,notNullValue());
             }
 
             @Test
@@ -185,7 +200,7 @@ public class TheaterDTOTests {
             @Test
             @DisplayName("check deleting existing ID returns 200 status")
             void checkDeletingExistingIdReturns200Status() {
-                ConnectionResponse response = ConnectionManager.from().baseURL().slash("theaters").slash("101").usingMethod("DELETE").getResponse();
+                ConnectionResponse response = ConnectionManager.from().baseURL().slash("theaters").slash("1").usingMethod("DELETE").getResponse();
 
                 assertThat(response.getStatusCode(), is(200));
             }
@@ -197,7 +212,7 @@ public class TheaterDTOTests {
             @DisplayName("check posting new theater returns 200 status")
             void checkPostingNewTheaterReturns200Status() {
                 ConnectionResponse response = ConnectionManager.from().baseURL().slash("theaters").slash("new").usingMethod("POST").withBody("{\n" +
-                        "    \"theaterId\": 101,\n" +
+                        "    \"theaterId\": 1,\n" +
                         "    \"location\": {\n" +
                         "        \"geo\": {\n" +
                         "            \"coordinates\": [\n" +
