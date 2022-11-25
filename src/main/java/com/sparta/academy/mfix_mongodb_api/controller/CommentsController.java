@@ -149,6 +149,10 @@ public class CommentsController {
     @PutMapping("/comments/id/{id}")
     public ResponseEntity<Comment> updateCommentWithID(@RequestBody String text, @PathVariable String id) {
 
+        if ( text == null || text.equals("")) {
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
+
         HttpStatus status = HttpStatus.NOT_FOUND;
         Comment body = null;
 
