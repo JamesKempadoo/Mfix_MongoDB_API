@@ -1,9 +1,15 @@
 package com.sparta.academy.mfix_mongodb_api;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sparta.academy.mfix_mongodb_api.framework.connection.ConnectionResponse;
+import com.sparta.academy.mfix_mongodb_api.framework.dto.theater.TheaterDTO;
 import com.sparta.academy.mfix_mongodb_api.framework.dto.user.UserDTO;
 import org.junit.jupiter.api.*;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.io.IOException;
+import java.nio.file.Paths;
+
 import static com.sparta.academy.mfix_mongodb_api.framework.connection.ConnectionManager.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
@@ -15,6 +21,8 @@ public class UserDTOTest {
     private static ConnectionResponse collectionResponse;
     private static ConnectionResponse response;
 
+    private static UserDTO[] usersJSON;
+
     @BeforeAll
     static void setupAll() {
         collectionResponse = from().baseURL().slash("users").getResponse();
@@ -22,34 +30,25 @@ public class UserDTOTest {
 
         users = collectionResponse.getBodyAs(UserDTO[].class);
         dto = response.getBodyAs(UserDTO.class);
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            usersJSON = objectMapper.readValue(Paths.get("src/test/resources/UserTestJSON.json").toFile(), UserDTO[].class);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @AfterAll
     static void refreshDB() {
-        from().baseURL().slash("users").usingMethod("POST").withBody("{\n" +
-                "        \"id\": \"59b99db4cfa9a34dcd7885b6\",\n" +
-                "        \"password\": \"$2b$12$UREFwsRUoyF0CRqGNK0LzO0HM/jLhgUCNNIJ9RJAqMUQ74crlJ1Vu\",\n" +
-                "        \"name\": \"Ned Stark\",\n" +
-                "        \"email\": \"sean_bean@gameofthron.es\"\n" +
-                "}").getResponse();
+        from().baseURL().slash("users").usingMethod("POST").withBody(usersJSON[0]).getResponse();
 
-        from().baseURL().slash("users").usingMethod("POST").withBody("{\n" +
-                "    \"id\": \"59b99db6cfa9a34dcd7885bb\",\n" +
-                "    \"password\": \"$2b$12$NzpbWHdMytemLtTfFKduHenr2NZ.rvxIKuYM4AWLTFaUShxbJ.G3q\",\n" +
-                "    \"name\": \"Daenerys Targaryen\",\n" +
-                "    \"email\": \"emilia_clarke@gameofthron.es\"\n" +
-                "}").getResponse();
+        from().baseURL().slash("users").usingMethod("POST").withBody(usersJSON[1]).getResponse();
 
-        from().baseURL().slash("users").usingMethod("PATCH").withBody("{\n" +
-                "        \"id\": \"5db1c37e4a68c31f10cf0a9f\",\n" +
-                "        \"password\": \"foobar\",\n" +
-                "        \"name\": \"foo\",\n" +
-                "        \"email\": \"foobaz@bar.com\"\n" +
-                "}").getResponse();
+        from().baseURL().slash("users").usingMethod("PATCH").withBody(usersJSON[2]).getResponse();
 
-        from().baseURL().slash("users").slash("637fa19ece2de22322396540").usingMethod("DELETE").getResponse();
-        from().baseURL().slash("users").slash("637fa19ece2de22322396541").usingMethod("DELETE").getResponse();
-
+        from().baseURL().slash("users").slash(usersJSON[3].getId()).usingMethod("DELETE").getResponse();
+        from().baseURL().slash("users").slash(usersJSON[4].getId()).usingMethod("DELETE").getResponse();
     }
 
     @Nested
@@ -195,7 +194,7 @@ public class UserDTOTest {
             @Transactional
             @DisplayName("Test that status code is 200")
             void TestThatStatusCodeIs200() {
-                ConnectionResponse response = from().baseURL().slash("users").slash("59b99db6cfa9a34dcd7885bb").usingMethod("DELETE").getResponse();
+                ConnectionResponse response = from().baseURL().slash("users").slash(usersJSON[0].getId()).usingMethod("DELETE").getResponse();
                 Assertions.assertEquals(200, response.getStatusCode());
             }
 
@@ -215,7 +214,7 @@ public class UserDTOTest {
             @Transactional
             @DisplayName("Check that content type is text/plain;charset=UTF-8")
             void checkContentTypeApplicationJSON(){
-                ConnectionResponse response = from().baseURL().slash("users").slash("59b99db4cfa9a34dcd7885b6").usingMethod("DELETE").getResponse();
+                ConnectionResponse response = from().baseURL().slash("users").slash(usersJSON[1].getId()).usingMethod("DELETE").getResponse();
                 Assertions.assertEquals("text/plain;charset=UTF-8", response.getHeader("Content-Type"));
             }
         }
@@ -237,12 +236,7 @@ public class UserDTOTest {
             @Transactional
             @DisplayName("Test that status code is 200")
             void TestThatStatusCodeIs200() {
-                ConnectionResponse response = from().baseURL().slash("users").usingMethod("POST").withBody("{\n" +
-                        "        \"id\": \"637fa19ece2de22322396540\",\n" +
-                        "        \"password\": \"$2b$12$UREFwsRUoyF0CRqGNK0LzO0HM/jLhgUCNNIJ9RJAqMUQ74crlJ1Vu\",\n" +
-                        "        \"name\": \"John Snow1\",\n" +
-                        "        \"email\": \"johnsndsfow1@gameofthron.es\"\n" +
-                        "}").getResponse();
+                ConnectionResponse response = from().baseURL().slash("users").usingMethod("POST").withBody(usersJSON[3]).getResponse();
                 Assertions.assertEquals(200, response.getStatusCode());
             }
 
@@ -262,12 +256,7 @@ public class UserDTOTest {
             @Transactional
             @DisplayName("Check that content type is application/json")
             void checkContentTypeApplicationJSON(){
-                ConnectionResponse response = from().baseURL().slash("users").usingMethod("POST").withBody("{\n" +
-                        "        \"id\": \"637fa19ece2de22322396541\",\n" +
-                        "        \"password\": \"$2b$12$UREFwsRUoyF0CRqGNK0LzO0HM/jLhgUCNNIJ9RJAqMUQ74crlJ1Vu\",\n" +
-                        "        \"name\": \"John Snow2\",\n" +
-                        "        \"email\": \"johnsnow2@gameofthron.es\"\n" +
-                        "}").getResponse();
+                ConnectionResponse response = from().baseURL().slash("users").usingMethod("POST").withBody(usersJSON[4]).getResponse();
                 Assertions.assertEquals("application/json", response.getHeader("Content-Type"));
             }
         }
@@ -290,12 +279,7 @@ public class UserDTOTest {
             @Transactional
             @DisplayName("Test that status code is 200")
             void TestThatStatusCodeIs200() {
-                ConnectionResponse response = from().baseURL().slash("users").usingMethod("PATCH").withBody("{\n" +
-                        "        \"id\": \"5db1c37e4a68c31f10cf0a9f\",\n" +
-                        "        \"password\": \"foobar\",\n" +
-                        "        \"name\": \"foobar\",\n" +
-                        "        \"email\": \"foobaz@bar.com\"\n" +
-                        "}").getResponse();
+                ConnectionResponse response = from().baseURL().slash("users").usingMethod("PATCH").withBody(usersJSON[5]).getResponse();
                 Assertions.assertEquals(200, response.getStatusCode());
             }
 
@@ -315,12 +299,7 @@ public class UserDTOTest {
             @Transactional
             @DisplayName("Check that content type is application/json")
             void checkContentTypeApplicationJSON(){
-                ConnectionResponse response = from().baseURL().slash("users").usingMethod("PATCH").withBody("{\n" +
-                        "        \"id\": \"5db1c37e4a68c31f10cf0a9f\",\n" +
-                        "        \"password\": \"foobar\",\n" +
-                        "        \"name\": \"foofoo\",\n" +
-                        "        \"email\": \"foobaz@bar.com\"\n" +
-                        "}").getResponse();
+                ConnectionResponse response = from().baseURL().slash("users").usingMethod("PATCH").withBody(usersJSON[6]).getResponse();
                 Assertions.assertEquals("application/json", response.getHeader("Content-Type"));
             }
         }
