@@ -37,7 +37,7 @@ public class TheatreStepdefs {
 
     @When("I issue a get request for a single theatre by theatreID")
     public void iIssueAGetRequestForASingleTheatreByTheatreID() {
-        theaterDTO = connectionRequest.slash("101").usingMethod("GET").getResponse().getBodyAs(TheaterDTO.class);
+        theaterDTO = connectionRequest.slash("502").usingMethod("GET").getResponse().getBodyAs(TheaterDTO.class);
     }
 
     @Then("It should return the data of the specified theater")
@@ -58,7 +58,7 @@ public class TheatreStepdefs {
 
     @When("I issue a patch request for a theatre by theatre ID")
     public void iIssueAPatchRequestForATheatreByTheatreID() {
-        connectionResponse = connectionRequest.slash("4").usingMethod("PATCH").withBody("""
+        connectionResponse = connectionRequest.slash("6").usingMethod("PATCH").withBody("""
                 {"geo": {
                             "coordinates": [
                                 -82.536293,
