@@ -115,8 +115,6 @@ public class MovieDTOTests {
             void checkThatDirectorIsNotEmpty() {
 
                 Assertions.assertFalse(dto.isDirectorsEmpty());
-
-                
             }
 
             @Test
