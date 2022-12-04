@@ -1,4 +1,4 @@
-package com.sparta.academy.mfix_mongodb_api.framework.framework_test;
+package com.sparta.academy.mfix_mongodb_api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sparta.academy.mfix_mongodb_api.framework.connection.ConnectionManager;
@@ -228,7 +228,7 @@ public class TheaterDTOTests {
                         "            \"state\": \"CA\"\n" +
                         "        }\n" +
                         "    },\n" +
-                        "    \"id\": \"59a47286dfa9a3a73e51e73b\"\n" +
+                        "    \"id\": \"59a47286dfa0a3a73e51e73b\"\n" +
                         "}").getResponse();
 
                 assertThat(response.getStatusCode(), is(200));

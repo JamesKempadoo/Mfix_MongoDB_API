@@ -1,0 +1,44 @@
+[
+  {
+    "id": "59b99db4cfa9a34dcd7885b6",
+    "password": "$2b$12$UREFwsRUoyF0CRqGNK0LzO0HM/jLhgUCNNIJ9RJAqMUQ74crlJ1Vu",
+    "name": "Ned Stark",
+    "email": "sean_bean@gameofthron.es"
+  },
+  {
+    "id": "59b99db6cfa9a34dcd7885bb",
+    "password": "$2b$12$NzpbWHdMytemLtTfFKduHenr2NZ.rvxIKuYM4AWLTFaUShxbJ.G3q",
+    "name": "Daenerys Targaryen",
+    "email": "emilia_clarke@gameofthron.es"
+  },
+  {
+    "id": "5db1c37e4a68c31f10cf0a9f",
+    "password": "foobar",
+    "name": "foo",
+    "email": "foobaz@bar.com"
+  },
+  {
+    "id": "637fa19ece2de22322396540",
+    "password": "$2b$12$UREFwsRUoyF0CRqGNK0LzO0HM/jLhgUCNNIJ9RJAqMUQ74crlJ1Vu",
+    "name": "John Snow1",
+    "email": "johnsndsfow1@gameofthron.es"
+  },
+  {
+    "id": "637fa19ece2de22322396541",
+    "password": "$2b$12$UREFwsRUoyF0CRqGNK0LzO0HM/jLhgUCNNIJ9RJAqMUQ74crlJ1Vu",
+    "name": "John Snow2",
+    "email": "johnsndsfow2@gameofthron.es"
+  },
+  {
+    "id": "5db1c37e4a68c31f10cf0a9f",
+    "password": "foobar",
+    "name": "foobar",
+    "email": "foobaz@bar.com"
+  },
+  {
+    "id": "5db1c37e4a68c31f10cf0a9f",
+    "password": "foobar",
+    "name": "foofoo",
+    "email": "foobaz@bar.com"
+  }
+]
